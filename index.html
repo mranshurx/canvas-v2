@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="doc-title">School Portal</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+    body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
+    header { background: #1e3a8a; color: white; padding: 2rem; text-align: center; }
+    nav { background: #0f172a; padding: 1rem; text-align: center; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
+    .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    .card { background: white; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .badge { background: #e0e7ff; color: #3730a3; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+    .btn { background: #2563eb; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
+    .btn:hover { background: #1d4ed8; }
+    .btn-danger { background: #dc2626; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 500px; }
+    input { width: 100%; padding: 0.5rem; margin: 0.5rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
+    img.hero-img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
+    img.teacher-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1 id="school-name">Loading...</h1>
+    <p id="school-branch"></p>
+  </header>
+
+  <nav>
+    <a href="#about">About</a>
+    <a href="#streams">Streams</a>
+    <a href="#teachers">Faculty</a>
+    <a href="#contact">Contact</a>
+    <button class="btn" style="float: right;" onclick="openAdminModal()">Superuser Login</button>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <img id="school-picture" class="hero-img" src="" alt="School Banner">
+      <h2 id="about">Welcome to <span class="school-name-text"></span></h2>
+      <p id="school-address"></p>
+    </div>
+
+    <div class="card">
+      <h2 id="streams">Academic Streams Offered</h2>
+      <div id="streams-list" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+    </div>
+
+    <div class="card">
+      <h2 id="teachers">Our Faculty</h2>
+      <div id="teachers-grid" class="grid" style="margin-top: 1rem;"></div>
+    </div>
+
+    <div class="card" id="contact">
+      <h2>Contact Information</h2>
+      <p><strong>Email:</strong> <span id="school-email"></span></p>
+      <p><strong>Phone:</strong> <span id="school-phone"></span></p>
+    </div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <h2 id="panel-title">Superuser Authentication</h2>
+      <div id="login-form">
+        <label>Enter Password:</label>
+        <input type="password" id="admin-pass" placeholder="Password">
+        <button class="btn" onclick="authenticate()">Login</button>
+        <button class="btn btn-danger" onclick="closeAdminModal()">Close</button>
+      </div>
+
+      <div id="dashboard" style="display: none; max-height: 80vh; overflow-y: auto;">
+        <p style="color: green; font-weight: bold; margin-bottom: 1rem;">Superuser Panel Active</p>
+        
+        <label>School Name</label>
+        <input type="text" id="edit-name">
+
+        <label>Branch</label>
+        <input type="text" id="edit-branch">
+
+        <label>Address</label>
+        <input type="text" id="edit-address">
+
+        <label>Banner Picture URL</label>
+        <input type="text" id="edit-picture">
+
+        <label>Email</label>
+        <input type="email" id="edit-email">
+
+        <label>Phone</label>
+        <input type="text" id="edit-phone">
+
+        <label>Streams (Comma Separated)</label>
+        <input type="text" id="edit-streams">
+
+        <h3>Add Teacher</h3>
+        <input type="text" id="new-teacher-name" placeholder="Teacher Name">
+        <input type="text" id="new-teacher-sub" placeholder="Subject">
+        <input type="text" id="new-teacher-img" placeholder="Photo URL">
+        <button class="btn" onclick="addTeacher()">Add Teacher</button>
+
+        <hr style="margin: 1.5rem 0;">
+        <button class="btn" onclick="saveData()">Save All Changes</button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Free Public Endpoint for demo data storage
+    const BIN_URL = "https://api.myjson.online/v1/records"; 
+    let currentData = {
+      name: "Global High School",
+      branch: "Main Campus",
+      address: "123 Education Lane, Knowledge City",
+      picture: "https://images.unsplash.com/photo-1562774053-701939374585?w=1000",
+      email: "contact@globalhigh.edu",
+      phone: "+1 800-555-0199",
+      streams: ["Science", "Commerce", "Arts"],
+      teachers: [
+        { name: "Dr. Robert Smith", subject: "Physics", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" }
+      ]
+    };
+
+    function loadData() {
+      const stored = localStorage.getItem('static_school_data');
+      if (stored) {
+        currentData = JSON.parse(stored);
+      }
+      renderUI();
+    }
+
+    function renderUI() {
+      document.getElementById('doc-title').innerText = currentData.name;
+      document.getElementById('school-name').innerText = currentData.name;
+      document.querySelectorAll('.school-name-text').forEach(el => el.innerText = currentData.name);
+      document.getElementById('school-branch').innerText = "Branch: " + currentData.branch;
+      document.getElementById('school-address').innerText = "Address: " + currentData.address;
+      document.getElementById('school-picture').src = currentData.picture;
+      document.getElementById('school-email').innerText = currentData.email;
+      document.getElementById('school-phone').innerText = currentData.phone;
+
+      document.getElementById('streams-list').innerHTML = currentData.streams.map(s => `<span class="badge">${s.trim()}</span>`).join('');
+
+      document.getElementById('teachers-grid').innerHTML = currentData.teachers.map(t => `
+        <div style="text-align: center; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 6px;">
+          <img src="${t.photo}" class="teacher-img" alt="${t.name}">
+          <h4>${t.name}</h4>
+          <p style="color: #64748b; font-size: 0.9rem;">${t.subject}</p>
+        </div>
+      `).join('');
+    }
+
+    function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+    function authenticate() {
+      const pass = document.getElementById('admin-pass').value;
+      if (pass === 'canvas123') {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('panel-title').innerText = "Superuser Control Dashboard";
+        populateForm();
+      } else {
+        alert("Incorrect password!");
+      }
+    }
+
+    function logout() {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('admin-pass').value = '';
+      closeAdminModal();
+    }
+
+    function populateForm() {
+      document.getElementById('edit-name').value = currentData.name;
+      document.getElementById('edit-branch').value = currentData.branch;
+      document.getElementById('edit-address').value = currentData.address;
+      document.getElementById('edit-picture').value = currentData.picture;
+      document.getElementById('edit-email').value = currentData.email;
+      document.getElementById('edit-phone').value = currentData.phone;
+      document.getElementById('edit-streams').value = currentData.streams.join(', ');
+    }
+
+    function addTeacher() {
+      const name = document.getElementById('new-teacher-name').value;
+      const subject = document.getElementById('new-teacher-sub').value;
+      const photo = document.getElementById('new-teacher-img').value || "https://via.placeholder.com/150";
+
+      if(!name || !subject) return alert("Please fill in teacher details");
+
+      currentData.teachers.push({ name, subject, photo });
+      document.getElementById('new-teacher-name').value = '';
+      document.getElementById('new-teacher-sub').value = '';
+      document.getElementById('new-teacher-img').value = '';
+      alert("Teacher added! Click 'Save All Changes'.");
+    }
+
+    function saveData() {
+      currentData = {
+        name: document.getElementById('edit-name').value,
+        branch: document.getElementById('edit-branch').value,
+        address: document.getElementById('edit-address').value,
+        picture: document.getElementById('edit-picture').value,
+        email: document.getElementById('edit-email').value,
+        phone: document.getElementById('edit-phone').value,
+        streams: document.getElementById('edit-streams').value.split(','),
+        teachers: currentData.teachers
+      };
+
+      localStorage.setItem('static_school_data', JSON.stringify(currentData));
+      renderUI();
+      alert("Website updated successfully!");
+    }
+
+    loadData();
+  </script>
+</body>
+</html>
