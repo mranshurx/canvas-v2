@@ -234,7 +234,7 @@
   </div>
 
   <script>
-    // Global Default Data Block (Preset with full description & faculty)
+    // Global Default Data Block
     const defaultData = {
       name: "CANVAS SENIOR SECONDARY SCHOOL, Jorhat",
       branch: "Tarajan, Jorhat Campus",
@@ -244,8 +244,8 @@
       email: "info@canvasschool.edu",
       phone: "+91 98765 43210",
       teachers: [
-        { name: "RAJIB SIR", subject: "CHEMISTRY", photo: "image.png" },
-        { name: "RITURAJ SIR", subject: "PHYSICS", photo: "rituraj.png" },
+        { name: "RAJIB LOCHAN SAIKIA", subject: "CHEMISTRY", photo: "image.png" },
+        { name: "RITURAJ KALITA", subject: "PHYSICS", photo: "rituraj.png" },
         { name: "SANJIB BASFOR", subject: "MATHEMATICS", photo: "sanjib.jpg" }
       ],
       visitors: []
@@ -496,14 +496,14 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Add teacher Sanjib Basfor & update site details via Superuser Panel',
+            message: 'Update faculty names & site details via Superuser Panel',
             content: encodedContent,
             sha: currentSha
           })
         });
 
         if (commitRes.ok) {
-          alert("Success! Code & visitor logs committed to GitHub repository. Render will redeploy in ~1 minute.");
+          alert("Success! Code committed to GitHub repository. Render will redeploy in ~1 minute.");
           currentData = updatedData;
           renderUI();
           closeAdminModal();
