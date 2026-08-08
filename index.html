@@ -17,11 +17,13 @@
     .btn { background: #2563eb; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
     .btn:hover { background: #1d4ed8; }
     .btn-danger { background: #dc2626; }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-    .modal-content { background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 500px; }
-    input { width: 100%; padding: 0.5rem; margin: 0.5rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
-    img.hero-img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; }
-    img.teacher-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; }
+    .btn-danger:hover { background: #b91c1c; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    .modal-content { background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 550px; }
+    input { width: 100%; padding: 0.5rem; margin: 0.4rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
+    img.hero-img { width: 100%; max-height: 380px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; background-color: #e2e8f0; }
+    img.teacher-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background-color: #cbd5e1; }
+    .teacher-item { display: flex; justify-content: space-between; align-items: center; background: #f1f5f9; padding: 0.6rem 0.8rem; margin-top: 0.5rem; border-radius: 6px; }
   </style>
 </head>
 <body>
@@ -40,22 +42,26 @@
   </nav>
 
   <div class="container">
+    <!-- About Section -->
     <div class="card">
-      <img id="school-picture" class="hero-img" src="" alt="School Banner">
+      <img id="school-picture" class="hero-img" src="" alt="College Banner">
       <h2 id="about">Welcome to <span class="school-name-text"></span></h2>
       <p id="school-address"></p>
     </div>
 
+    <!-- Academic Streams -->
     <div class="card">
       <h2 id="streams">Academic Streams Offered</h2>
       <div id="streams-list" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
     </div>
 
+    <!-- Faculty Members -->
     <div class="card">
       <h2 id="teachers">Our Faculty</h2>
       <div id="teachers-grid" class="grid" style="margin-top: 1rem;"></div>
     </div>
 
+    <!-- Contact Info -->
     <div class="card" id="contact">
       <h2>Contact Information</h2>
       <p><strong>Email:</strong> <span id="school-email"></span></p>
@@ -63,21 +69,24 @@
     </div>
   </div>
 
-  <!-- Admin Panel Modal -->
+  <!-- Superuser Admin Modal -->
   <div id="adminModal" class="modal">
     <div class="modal-content">
-      <h2 id="panel-title">Superuser Authentication</h2>
+      <h2 id="panel-title" style="margin-bottom: 1rem;">Superuser Authentication</h2>
+      
+      <!-- Login View -->
       <div id="login-form">
-        <label>Enter Password:</label>
+        <label>Enter Superuser Password:</label>
         <input type="password" id="admin-pass" placeholder="Password">
         <button class="btn" onclick="authenticate()">Login</button>
         <button class="btn btn-danger" onclick="closeAdminModal()">Close</button>
       </div>
 
-      <div id="dashboard" style="display: none; max-height: 80vh; overflow-y: auto;">
-        <p style="color: green; font-weight: bold; margin-bottom: 1rem;">Superuser Panel Active</p>
+      <!-- Dashboard View -->
+      <div id="dashboard" style="display: none; max-height: 75vh; overflow-y: auto; padding-right: 0.5rem;">
+        <p style="color: #16a34a; font-weight: bold; margin-bottom: 1rem;">Superuser Dashboard Active</p>
         
-        <label>School Name</label>
+        <label>School/College Name</label>
         <input type="text" id="edit-name">
 
         <label>Branch</label>
@@ -86,79 +95,119 @@
         <label>Address</label>
         <input type="text" id="edit-address">
 
-        <label>Banner Picture URL</label>
+        <label>Banner Picture (URL or filename e.g. college.jpg)</label>
         <input type="text" id="edit-picture">
 
-        <label>Email</label>
+        <label>Email Address</label>
         <input type="email" id="edit-email">
 
-        <label>Phone</label>
+        <label>Phone Number</label>
         <input type="text" id="edit-phone">
 
-        <label>Streams (Comma Separated)</label>
+        <label>Streams Offered (Comma Separated)</label>
         <input type="text" id="edit-streams">
 
-        <h3>Add Teacher</h3>
-        <input type="text" id="new-teacher-name" placeholder="Teacher Name">
-        <input type="text" id="new-teacher-sub" placeholder="Subject">
-        <input type="text" id="new-teacher-img" placeholder="Photo URL">
-        <button class="btn" onclick="addTeacher()">Add Teacher</button>
+        <hr style="margin: 1.5rem 0;">
+
+        <!-- Manage Existing Faculty -->
+        <h3 style="margin-bottom: 0.5rem;">Current Faculty Members</h3>
+        <div id="admin-teachers-list"></div>
 
         <hr style="margin: 1.5rem 0;">
-        <button class="btn" onclick="saveData()">Save All Changes</button>
-        <button class="btn btn-danger" onclick="logout()">Logout</button>
+
+        <!-- Add New Faculty -->
+        <h3 style="margin-bottom: 0.5rem;">Add New Faculty Member</h3>
+        <label>Teacher Name</label>
+        <input type="text" id="new-teacher-name" placeholder="e.g. Prof. Alan Turing">
+        
+        <label>Subject / Department</label>
+        <input type="text" id="new-teacher-sub" placeholder="e.g. Computer Science">
+        
+        <label>Photo (URL or filename e.g. turing.jpg)</label>
+        <input type="text" id="new-teacher-img" placeholder="Photo URL or filename">
+        
+        <button class="btn" style="margin-bottom: 1.5rem;" onclick="addTeacher()">Add Faculty Member</button>
+
+        <hr style="margin: 1rem 0;">
+
+        <button class="btn" style="width: 100%; margin-bottom: 0.5rem;" onclick="saveData()">Save All Changes</button>
+        <button class="btn btn-danger" style="width: 100%;" onclick="logout()">Logout & Exit</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Free Public Endpoint for demo data storage
-    const BIN_URL = "https://api.myjson.online/v1/records"; 
     let currentData = {
-      name: "Global High School",
+      name: "Global College",
       branch: "Main Campus",
-      address: "123 Education Lane, Knowledge City",
+      address: "123 Education Lane",
       picture: "https://images.unsplash.com/photo-1562774053-701939374585?w=1000",
-      email: "contact@globalhigh.edu",
+      email: "info@college.edu",
       phone: "+1 800-555-0199",
-      streams: ["Science", "Commerce", "Arts"],
-      teachers: [
-        { name: "Dr. Robert Smith", subject: "Physics", photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" }
-      ]
+      streams: ["Computer Science", "Engineering", "Business Administration"],
+      teachers: []
     };
 
-    function loadData() {
-      const stored = localStorage.getItem('static_school_data');
-      if (stored) {
-        currentData = JSON.parse(stored);
+    // Strip leading/trailing whitespace and quotes from URLs
+    function cleanUrl(url) {
+      if (!url) return '';
+      return url.trim().replace(/^["']|["']$/g, '');
+    }
+
+    // Load website content from Express server
+    async function loadData() {
+      try {
+        const res = await fetch('/api/data');
+        if (res.ok) {
+          currentData = await res.json();
+        }
+      } catch (err) {
+        console.warn("API route not found. Using local data memory.");
       }
       renderUI();
     }
 
+    // Render public website UI
     function renderUI() {
-      document.getElementById('doc-title').innerText = currentData.name;
-      document.getElementById('school-name').innerText = currentData.name;
-      document.querySelectorAll('.school-name-text').forEach(el => el.innerText = currentData.name);
-      document.getElementById('school-branch').innerText = "Branch: " + currentData.branch;
-      document.getElementById('school-address').innerText = "Address: " + currentData.address;
-      document.getElementById('school-picture').src = currentData.picture;
-      document.getElementById('school-email').innerText = currentData.email;
-      document.getElementById('school-phone').innerText = currentData.phone;
+      document.getElementById('doc-title').innerText = currentData.name || 'College Website';
+      document.getElementById('school-name').innerText = currentData.name || '';
+      document.querySelectorAll('.school-name-text').forEach(el => el.innerText = currentData.name || '');
+      document.getElementById('school-branch').innerText = currentData.branch ? "Branch: " + currentData.branch : '';
+      document.getElementById('school-address').innerText = currentData.address ? "Address: " + currentData.address : '';
+      
+      const bannerImg = document.getElementById('school-picture');
+      bannerImg.src = cleanUrl(currentData.picture);
+      bannerImg.onerror = function() {
+        this.src = "https://images.unsplash.com/photo-1562774053-701939374585?w=1000";
+      };
 
-      document.getElementById('streams-list').innerHTML = currentData.streams.map(s => `<span class="badge">${s.trim()}</span>`).join('');
+      document.getElementById('school-email').innerText = currentData.email || '';
+      document.getElementById('school-phone').innerText = currentData.phone || '';
 
-      document.getElementById('teachers-grid').innerHTML = currentData.teachers.map(t => `
-        <div style="text-align: center; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 6px;">
-          <img src="${t.photo}" class="teacher-img" alt="${t.name}">
-          <h4>${t.name}</h4>
-          <p style="color: #64748b; font-size: 0.9rem;">${t.subject}</p>
-        </div>
-      `).join('');
+      const streamsDiv = document.getElementById('streams-list');
+      if (Array.isArray(currentData.streams)) {
+        streamsDiv.innerHTML = currentData.streams.map(s => `<span class="badge">${s.trim()}</span>`).join('');
+      }
+
+      const teachersGrid = document.getElementById('teachers-grid');
+      if (Array.isArray(currentData.teachers) && currentData.teachers.length > 0) {
+        teachersGrid.innerHTML = currentData.teachers.map(t => `
+          <div style="text-align: center; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 6px;">
+            <img src="${cleanUrl(t.photo)}" class="teacher-img" alt="${t.name}" onerror="this.src='https://via.placeholder.com/150'">
+            <h4>${t.name}</h4>
+            <p style="color: #64748b; font-size: 0.9rem;">${t.subject}</p>
+          </div>
+        `).join('');
+      } else {
+        teachersGrid.innerHTML = `<p style="color: #64748b;">No faculty members listed.</p>`;
+      }
     }
 
+    // Modal display controls
     function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
     function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
+    // Client-side authentication check
     function authenticate() {
       const pass = document.getElementById('admin-pass').value;
       if (pass === 'canvas123') {
@@ -167,7 +216,7 @@
         document.getElementById('panel-title').innerText = "Superuser Control Dashboard";
         populateForm();
       } else {
-        alert("Incorrect password!");
+        alert("Incorrect Superuser Password!");
       }
     }
 
@@ -175,50 +224,109 @@
       document.getElementById('login-form').style.display = 'block';
       document.getElementById('dashboard').style.display = 'none';
       document.getElementById('admin-pass').value = '';
+      document.getElementById('panel-title').innerText = "Superuser Authentication";
       closeAdminModal();
     }
 
+    // Populate dashboard controls with current data
     function populateForm() {
-      document.getElementById('edit-name').value = currentData.name;
-      document.getElementById('edit-branch').value = currentData.branch;
-      document.getElementById('edit-address').value = currentData.address;
-      document.getElementById('edit-picture').value = currentData.picture;
-      document.getElementById('edit-email').value = currentData.email;
-      document.getElementById('edit-phone').value = currentData.phone;
-      document.getElementById('edit-streams').value = currentData.streams.join(', ');
+      document.getElementById('edit-name').value = currentData.name || '';
+      document.getElementById('edit-branch').value = currentData.branch || '';
+      document.getElementById('edit-address').value = currentData.address || '';
+      document.getElementById('edit-picture').value = currentData.picture || '';
+      document.getElementById('edit-email').value = currentData.email || '';
+      document.getElementById('edit-phone').value = currentData.phone || '';
+      document.getElementById('edit-streams').value = Array.isArray(currentData.streams) ? currentData.streams.join(', ') : '';
+
+      renderAdminTeachers();
     }
 
+    // Render list of faculty with delete buttons inside dashboard
+    function renderAdminTeachers() {
+      const container = document.getElementById('admin-teachers-list');
+      if (!currentData.teachers || currentData.teachers.length === 0) {
+        container.innerHTML = "<p style='color: #64748b; font-size: 0.9rem;'>No faculty added yet.</p>";
+        return;
+      }
+
+      container.innerHTML = currentData.teachers.map((t, index) => `
+        <div class="teacher-item">
+          <div>
+            <strong>${t.name}</strong> <span style="color: #64748b; font-size: 0.85rem;">(${t.subject})</span>
+          </div>
+          <button class="btn btn-danger" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;" onclick="removeTeacher(${index})">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    // Remove teacher from state array
+    function removeTeacher(index) {
+      currentData.teachers.splice(index, 1);
+      renderAdminTeachers();
+      alert("Faculty member removed! Click 'Save All Changes' to submit.");
+    }
+
+    // Add new teacher to state array
     function addTeacher() {
-      const name = document.getElementById('new-teacher-name').value;
-      const subject = document.getElementById('new-teacher-sub').value;
-      const photo = document.getElementById('new-teacher-img').value || "https://via.placeholder.com/150";
+      const name = document.getElementById('new-teacher-name').value.trim();
+      const subject = document.getElementById('new-teacher-sub').value.trim();
+      const photo = document.getElementById('new-teacher-img').value.trim() || "https://via.placeholder.com/150";
 
-      if(!name || !subject) return alert("Please fill in teacher details");
+      if (!name || !subject) {
+        return alert("Please provide both a Teacher Name and Subject.");
+      }
 
+      if (!currentData.teachers) currentData.teachers = [];
       currentData.teachers.push({ name, subject, photo });
+
       document.getElementById('new-teacher-name').value = '';
       document.getElementById('new-teacher-sub').value = '';
       document.getElementById('new-teacher-img').value = '';
-      alert("Teacher added! Click 'Save All Changes'.");
+
+      renderAdminTeachers();
+      alert("Faculty member added! Click 'Save All Changes' to submit.");
     }
 
-    function saveData() {
-      currentData = {
+    // Push updated data to backend server
+    async function saveData() {
+      const password = document.getElementById('admin-pass').value;
+
+      const updatedData = {
         name: document.getElementById('edit-name').value,
         branch: document.getElementById('edit-branch').value,
         address: document.getElementById('edit-address').value,
         picture: document.getElementById('edit-picture').value,
         email: document.getElementById('edit-email').value,
         phone: document.getElementById('edit-phone').value,
-        streams: document.getElementById('edit-streams').value.split(','),
-        teachers: currentData.teachers
+        streams: document.getElementById('edit-streams').value.split(',').map(s => s.trim()).filter(s => s.length > 0),
+        teachers: currentData.teachers || []
       };
 
-      localStorage.setItem('static_school_data', JSON.stringify(currentData));
-      renderUI();
-      alert("Website updated successfully!");
+      try {
+        const response = await fetch('/api/update', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password, updatedData })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          alert("Website updated successfully!");
+          loadData();
+          closeAdminModal();
+        } else {
+          alert("Error updating website: " + result.message);
+        }
+      } catch (err) {
+        // Fallback for static environment
+        currentData = updatedData;
+        renderUI();
+        alert("Changes saved locally.");
+        closeAdminModal();
+      }
     }
 
+    // Initialize application on load
     loadData();
   </script>
 </body>
