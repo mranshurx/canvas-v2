@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="doc-title">School Portal</title>
+  <title id="doc-title">CANVAS SENIOR SECONDARY SCHOOL, Jorhat</title>
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
     body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
@@ -13,7 +13,7 @@
     .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
     .card { background: white; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
-    .badge { background: #e0e7ff; color: #3730a3; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: bold; }
+    .badge { background: #e0e7ff; color: #3730a3; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.9rem; font-weight: bold; }
     .btn { background: #2563eb; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
     .btn:hover { background: #1d4ed8; }
     .btn-danger { background: #dc2626; }
@@ -29,8 +29,8 @@
 <body>
 
   <header>
-    <h1 id="school-name">Loading...</h1>
-    <p id="school-branch"></p>
+    <h1 id="school-name">CANVAS SENIOR SECONDARY SCHOOL, Jorhat</h1>
+    <p id="school-branch">Jorhat Campus</p>
   </header>
 
   <nav>
@@ -44,9 +44,9 @@
   <div class="container">
     <!-- About Section -->
     <div class="card">
-      <img id="school-picture" class="hero-img" src="" alt="College Banner">
-      <h2 id="about">Welcome to <span class="school-name-text"></span></h2>
-      <p id="school-address"></p>
+      <img id="school-picture" class="hero-img" src="college.png" alt="School Banner">
+      <h2 id="about">Welcome to <span class="school-name-text">CANVAS SENIOR SECONDARY SCHOOL, Jorhat</span></h2>
+      <p id="school-address">Address: Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
     </div>
 
     <!-- Academic Streams -->
@@ -64,8 +64,8 @@
     <!-- Contact Info -->
     <div class="card" id="contact">
       <h2>Contact Information</h2>
-      <p><strong>Email:</strong> <span id="school-email"></span></p>
-      <p><strong>Phone:</strong> <span id="school-phone"></span></p>
+      <p><strong>Email:</strong> <span id="school-email">info@canvasschool.edu</span></p>
+      <p><strong>Phone:</strong> <span id="school-phone">+91 98765 43210</span></p>
     </div>
   </div>
 
@@ -95,7 +95,7 @@
         <label>Address</label>
         <input type="text" id="edit-address">
 
-        <label>Banner Picture (URL or filename e.g. college.jpg)</label>
+        <label>Banner Picture (URL or GitHub filename e.g. college.png)</label>
         <input type="text" id="edit-picture">
 
         <label>Email Address</label>
@@ -118,13 +118,13 @@
         <!-- Add New Faculty -->
         <h3 style="margin-bottom: 0.5rem;">Add New Faculty Member</h3>
         <label>Teacher Name</label>
-        <input type="text" id="new-teacher-name" placeholder="e.g. Prof. Alan Turing">
+        <input type="text" id="new-teacher-name" placeholder="e.g. Mr. Sharma">
         
         <label>Subject / Department</label>
-        <input type="text" id="new-teacher-sub" placeholder="e.g. Computer Science">
+        <input type="text" id="new-teacher-sub" placeholder="e.g. Physics">
         
-        <label>Photo (URL or filename e.g. turing.jpg)</label>
-        <input type="text" id="new-teacher-img" placeholder="Photo URL or filename">
+        <label>Photo (URL or GitHub filename e.g. sharma.jpg)</label>
+        <input type="text" id="new-teacher-img" placeholder="Photo filename or URL">
         
         <button class="btn" style="margin-bottom: 1.5rem;" onclick="addTeacher()">Add Faculty Member</button>
 
@@ -137,41 +137,39 @@
   </div>
 
   <script>
-    let currentData = {
-      name: "Global College",
-      branch: "Main Campus",
-      address: "123 Education Lane",
-      picture: "https://images.unsplash.com/photo-1562774053-701939374585?w=1000",
-      email: "info@college.edu",
-      phone: "+1 800-555-0199",
-      streams: ["Computer Science", "Engineering", "Business Administration"],
+    // Permanent Global Default School Data
+    const defaultData = {
+      name: "CANVAS SENIOR SECONDARY SCHOOL, Jorhat",
+      branch: "Jorhat Campus",
+      address: "Phukan-Ali, Tarajan, Jorhat, Assam, 785001",
+      picture: "college.png", // Set to your GitHub filename college.png
+      email: "info@canvasschool.edu",
+      phone: "+91 98765 43210",
+      streams: ["ARTS", "SCIENCE", "COMMERCE"],
       teachers: []
     };
 
-    // Strip leading/trailing whitespace and quotes from URLs
+    let currentData = defaultData;
+
     function cleanUrl(url) {
       if (!url) return '';
       return url.trim().replace(/^["']|["']$/g, '');
     }
 
-    // Load website content from Express server
     async function loadData() {
-      try {
-        const res = await fetch('/api/data');
-        if (res.ok) {
-          currentData = await res.json();
-        }
-      } catch (err) {
-        console.warn("API route not found. Using local data memory.");
+      const savedLocal = localStorage.getItem('school_data_saved');
+      if (savedLocal) {
+        currentData = JSON.parse(savedLocal);
+      } else {
+        currentData = defaultData;
       }
       renderUI();
     }
 
-    // Render public website UI
     function renderUI() {
-      document.getElementById('doc-title').innerText = currentData.name || 'College Website';
-      document.getElementById('school-name').innerText = currentData.name || '';
-      document.querySelectorAll('.school-name-text').forEach(el => el.innerText = currentData.name || '');
+      document.getElementById('doc-title').innerText = currentData.name;
+      document.getElementById('school-name').innerText = currentData.name;
+      document.querySelectorAll('.school-name-text').forEach(el => el.innerText = currentData.name);
       document.getElementById('school-branch').innerText = currentData.branch ? "Branch: " + currentData.branch : '';
       document.getElementById('school-address').innerText = currentData.address ? "Address: " + currentData.address : '';
       
@@ -199,15 +197,13 @@
           </div>
         `).join('');
       } else {
-        teachersGrid.innerHTML = `<p style="color: #64748b;">No faculty members listed.</p>`;
+        teachersGrid.innerHTML = `<p style="color: #64748b;">No faculty members listed yet.</p>`;
       }
     }
 
-    // Modal display controls
     function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
     function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
-    // Client-side authentication check
     function authenticate() {
       const pass = document.getElementById('admin-pass').value;
       if (pass === 'canvas123') {
@@ -228,7 +224,6 @@
       closeAdminModal();
     }
 
-    // Populate dashboard controls with current data
     function populateForm() {
       document.getElementById('edit-name').value = currentData.name || '';
       document.getElementById('edit-branch').value = currentData.branch || '';
@@ -241,7 +236,6 @@
       renderAdminTeachers();
     }
 
-    // Render list of faculty with delete buttons inside dashboard
     function renderAdminTeachers() {
       const container = document.getElementById('admin-teachers-list');
       if (!currentData.teachers || currentData.teachers.length === 0) {
@@ -259,14 +253,11 @@
       `).join('');
     }
 
-    // Remove teacher from state array
     function removeTeacher(index) {
       currentData.teachers.splice(index, 1);
       renderAdminTeachers();
-      alert("Faculty member removed! Click 'Save All Changes' to submit.");
     }
 
-    // Add new teacher to state array
     function addTeacher() {
       const name = document.getElementById('new-teacher-name').value.trim();
       const subject = document.getElementById('new-teacher-sub').value.trim();
@@ -284,13 +275,9 @@
       document.getElementById('new-teacher-img').value = '';
 
       renderAdminTeachers();
-      alert("Faculty member added! Click 'Save All Changes' to submit.");
     }
 
-    // Push updated data to backend server
     async function saveData() {
-      const password = document.getElementById('admin-pass').value;
-
       const updatedData = {
         name: document.getElementById('edit-name').value,
         branch: document.getElementById('edit-branch').value,
@@ -302,31 +289,14 @@
         teachers: currentData.teachers || []
       };
 
-      try {
-        const response = await fetch('/api/update', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password, updatedData })
-        });
+      localStorage.setItem('school_data_saved', JSON.stringify(updatedData));
+      currentData = updatedData;
+      renderUI();
 
-        const result = await response.json();
-        if (result.success) {
-          alert("Website updated successfully!");
-          loadData();
-          closeAdminModal();
-        } else {
-          alert("Error updating website: " + result.message);
-        }
-      } catch (err) {
-        // Fallback for static environment
-        currentData = updatedData;
-        renderUI();
-        alert("Changes saved locally.");
-        closeAdminModal();
-      }
+      alert("Changes saved!");
+      closeAdminModal();
     }
 
-    // Initialize application on load
     loadData();
   </script>
 </body>
