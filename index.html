@@ -3,24 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="doc-title">CANVAS SENIOR SECONDARY SCHOOL, Jorhat</title>
+  
+  <!-- SEO & Google Search Meta Tags -->
+  <title id="doc-title">CANVAS SENIOR SECONDARY SCHOOL, Jorhat | Admissions Open</title>
+  <meta name="description" content="Welcome to Canvas Senior Secondary School in Tarajan, Jorhat. Offering top-tier Arts, Science, and Commerce education with expert faculty and modern infrastructure.">
+  <meta name="keywords" content="Canvas Senior Secondary School Jorhat, Canvas School Tarajan, best college in Jorhat, Science Arts Commerce admission Assam">
+  <meta name="robots" content="index, follow">
+
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
     body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
-    header { background: #1e3a8a; color: white; padding: 2rem; text-align: center; }
-    nav { background: #0f172a; padding: 1rem; text-align: center; }
+    header { background: #1e3a8a; color: white; padding: 2.5rem 1rem; text-align: center; }
+    nav { background: #0f172a; padding: 1rem; text-align: center; sticky: top; }
     nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
     .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
-    .card { background: white; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .card { background: white; padding: 1.8rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+    .stream-card { background: #f8fafc; border-left: 4px solid #2563eb; padding: 1.2rem; border-radius: 6px; }
+    .feature-card { background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.2rem; border-radius: 6px; }
     .badge { background: #e0e7ff; color: #3730a3; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.9rem; font-weight: bold; }
     .btn { background: #2563eb; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
     .btn:hover { background: #1d4ed8; }
     .btn-danger { background: #dc2626; }
     .btn-danger:hover { background: #b91c1c; }
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
-    .modal-content { background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 550px; }
-    input { width: 100%; padding: 0.5rem; margin: 0.4rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
+    .modal-content { background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 600px; }
+    input, textarea { width: 100%; padding: 0.5rem; margin: 0.4rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
+    textarea { resize: vertical; min-height: 100px; }
     img.hero-img { width: 100%; max-height: 380px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; background-color: #e2e8f0; }
     img.teacher-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background-color: #cbd5e1; }
     .teacher-item { display: flex; justify-content: space-between; align-items: center; background: #f1f5f9; padding: 0.6rem 0.8rem; margin-top: 0.5rem; border-radius: 6px; }
@@ -30,40 +39,88 @@
 
   <header>
     <h1 id="school-name">CANVAS SENIOR SECONDARY SCHOOL, Jorhat</h1>
-    <p id="school-branch">Jorhat Campus</p>
+    <p id="school-branch">Tarajan, Jorhat Campus</p>
   </header>
 
   <nav>
-    <a href="#about">About</a>
-    <a href="#streams">Streams</a>
+    <a href="#about">About Us</a>
+    <a href="#streams">Academic Streams</a>
+    <a href="#why-choose">Why Choose Us</a>
     <a href="#teachers">Faculty</a>
     <a href="#contact">Contact</a>
     <button class="btn" style="float: right;" onclick="openAdminModal()">Superuser Login</button>
   </nav>
 
   <div class="container">
-    <!-- About Section -->
-    <div class="card">
-      <img id="school-picture" class="hero-img" src="college.png" alt="School Banner">
-      <h2 id="about">Welcome to <span class="school-name-text">CANVAS SENIOR SECONDARY SCHOOL, Jorhat</span></h2>
-      <p id="school-address">Address: Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
+    <!-- About Section & Full Description -->
+    <div class="card" id="about">
+      <img id="school-picture" class="hero-img" src="college.png" alt="Canvas Senior Secondary School Building">
+      <h2 style="color: #1e3a8a; margin-bottom: 0.8rem;">Welcome to Canvas Senior Secondary School</h2>
+      <p id="school-description" style="white-space: pre-line; font-size: 1.05rem; color: #334155; line-height: 1.8;">
+        Located in Tarajan, Jorhat, Canvas Senior Secondary School is dedicated to nurturing academic excellence, fostering critical thinking, and shaping well-rounded leaders of tomorrow. Situated in the cultural heartland of Assam, Canvas Senior Secondary School provides a supportive, modern, and engaging educational environment where every student is empowered to discover their potential and achieve their dreams.
+      </p>
+      <p id="school-address" style="margin-top: 1rem; font-weight: bold; color: #475569;">Address: Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
     </div>
 
-    <!-- Academic Streams -->
-    <div class="card">
-      <h2 id="streams">Academic Streams Offered</h2>
-      <div id="streams-list" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+    <!-- Detailed Academic Streams -->
+    <div class="card" id="streams">
+      <h2 style="color: #1e3a8a; margin-bottom: 0.5rem;">Academic Streams Offered</h2>
+      <p style="margin-bottom: 1.5rem; color: #475569;">We offer comprehensive Higher Secondary programs across Science, Arts, and Commerce, designed to build a strong foundation for higher education and competitive examinations.</p>
+      
+      <div class="grid">
+        <div class="stream-card">
+          <h3 style="color: #1d4ed8; margin-bottom: 0.4rem;">1. Science Stream</h3>
+          <p style="font-size: 0.95rem; margin-bottom: 0.8rem;">Our Science curriculum emphasizes conceptual clarity, practical application, and analytical thinking. Guided by experienced faculty, students are prepared for both board examinations and competitive entrance tests in engineering, medicine, research, and technology.</p>
+          <p><strong>Key Subjects:</strong> Physics, Chemistry, Mathematics, Biology, Computer Science/IP.</p>
+        </div>
+
+        <div class="stream-card">
+          <h3 style="color: #1d4ed8; margin-bottom: 0.4rem;">2. Commerce Stream</h3>
+          <p style="font-size: 0.95rem; margin-bottom: 0.8rem;">Designed for future entrepreneurs, managers, and financial experts, our Commerce program equips students with strong analytical skills in accounting, business dynamics, and economics.</p>
+          <p><strong>Key Subjects:</strong> Accountancy, Business Studies, Economics, Finance, Mathematics.</p>
+        </div>
+
+        <div class="stream-card">
+          <h3 style="color: #1d4ed8; margin-bottom: 0.4rem;">3. Arts (Humanities) Stream</h3>
+          <p style="font-size: 0.95rem; margin-bottom: 0.8rem;">Our Arts program encourages creative expression, critical analysis, and a deep understanding of human society and culture. It serves as an ideal launchpad for careers in civil services, law, journalism, literature, and social sciences.</p>
+          <p><strong>Key Subjects:</strong> Political Science, History, Economics, Sociology, Advanced Languages, Logic & Philosophy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why Choose Us -->
+    <div class="card" id="why-choose">
+      <h2 style="color: #1e3a8a; margin-bottom: 1.2rem;">Why Choose Canvas Senior Secondary School?</h2>
+      <div class="grid">
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">👨‍🏫 Experienced & Caring Faculty</h4>
+          <p style="font-size: 0.95rem;">Dedicated educators committed to individual student attention and mentorship.</p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">🏫 Modern Infrastructure</h4>
+          <p style="font-size: 0.95rem;">Well-equipped classrooms, science and computer laboratories, and a rich library resource center.</p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">🎨 Holistic Development</h4>
+          <p style="font-size: 0.95rem;">A balanced focus on academic rigor, sports, cultural activities, and personal growth.</p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">🚀 Career & Guidance Support</h4>
+          <p style="font-size: 0.95rem;">Continuous guidance for higher education choices and career planning.</p>
+        </div>
+      </div>
     </div>
 
     <!-- Faculty Members -->
-    <div class="card">
-      <h2 id="teachers">Our Faculty</h2>
-      <div id="teachers-grid" class="grid" style="margin-top: 1rem;"></div>
+    <div class="card" id="teachers">
+      <h2 style="color: #1e3a8a; margin-bottom: 1rem;">Our Faculty</h2>
+      <div id="teachers-grid" class="grid"></div>
     </div>
 
     <!-- Contact Info -->
     <div class="card" id="contact">
-      <h2>Contact Information</h2>
+      <h2 style="color: #1e3a8a; margin-bottom: 0.8rem;">Contact Information</h2>
+      <p><strong>Address:</strong> Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
       <p><strong>Email:</strong> <span id="school-email">info@canvasschool.edu</span></p>
       <p><strong>Phone:</strong> <span id="school-phone">+91 98765 43210</span></p>
     </div>
@@ -102,6 +159,9 @@
         <label>Branch</label>
         <input type="text" id="edit-branch">
 
+        <label>School Description (About Section)</label>
+        <textarea id="edit-description"></textarea>
+
         <label>Address</label>
         <input type="text" id="edit-address">
 
@@ -113,9 +173,6 @@
 
         <label>Phone Number</label>
         <input type="text" id="edit-phone">
-
-        <label>Streams Offered (Comma Separated)</label>
-        <input type="text" id="edit-streams">
 
         <hr style="margin: 1.5rem 0;">
 
@@ -133,7 +190,7 @@
         <label>Subject / Department</label>
         <input type="text" id="new-teacher-sub" placeholder="e.g. Physics">
         
-        <label>Photo (URL or GitHub filename e.g. sharma.jpg)</label>
+        <label>Photo (URL or GitHub filename e.g. rituraj.png)</label>
         <input type="text" id="new-teacher-img" placeholder="Photo filename or URL">
         
         <button class="btn" style="margin-bottom: 1.5rem;" onclick="addTeacher()">Add Faculty Member</button>
@@ -147,15 +204,15 @@
   </div>
 
   <script>
-    // Global Default Data Block
+    // Global Default Data Block (Preset with full description & faculty)
     const defaultData = {
       name: "CANVAS SENIOR SECONDARY SCHOOL, Jorhat",
-      branch: "Jorhat Campus",
+      branch: "Tarajan, Jorhat Campus",
+      description: "Located in Tarajan, Jorhat, Canvas Senior Secondary School is dedicated to nurturing academic excellence, fostering critical thinking, and shaping well-rounded leaders of tomorrow. Situated in the cultural heartland of Assam, Canvas Senior Secondary School provides a supportive, modern, and engaging educational environment where every student is empowered to discover their potential and achieve their dreams.",
       address: "Phukan-Ali, Tarajan, Jorhat, Assam, 785001",
       picture: "college.png",
       email: "info@canvasschool.edu",
       phone: "+91 98765 43210",
-      streams: ["ARTS", "SCIENCE", "COMMERCE"],
       teachers: [
         {
           name: "RAJIB SIR",
@@ -187,10 +244,10 @@
     }
 
     function renderUI() {
-      document.getElementById('doc-title').innerText = currentData.name;
+      document.getElementById('doc-title').innerText = currentData.name + " | Admissions Open";
       document.getElementById('school-name').innerText = currentData.name;
-      document.querySelectorAll('.school-name-text').forEach(el => el.innerText = currentData.name);
-      document.getElementById('school-branch').innerText = currentData.branch ? "Branch: " + currentData.branch : '';
+      document.getElementById('school-branch').innerText = currentData.branch || '';
+      document.getElementById('school-description').innerText = currentData.description || '';
       document.getElementById('school-address').innerText = currentData.address ? "Address: " + currentData.address : '';
       
       const bannerImg = document.getElementById('school-picture');
@@ -202,18 +259,13 @@
       document.getElementById('school-email').innerText = currentData.email || '';
       document.getElementById('school-phone').innerText = currentData.phone || '';
 
-      const streamsDiv = document.getElementById('streams-list');
-      if (Array.isArray(currentData.streams)) {
-        streamsDiv.innerHTML = currentData.streams.map(s => `<span class="badge">${s.trim()}</span>`).join('');
-      }
-
       const teachersGrid = document.getElementById('teachers-grid');
       if (Array.isArray(currentData.teachers) && currentData.teachers.length > 0) {
         teachersGrid.innerHTML = currentData.teachers.map(t => `
-          <div style="text-align: center; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 6px;">
+          <div style="text-align: center; border: 1px solid #e2e8f0; padding: 1.2rem; border-radius: 8px; background: white;">
             <img src="${cleanUrl(t.photo)}" class="teacher-img" alt="${t.name}" onerror="this.src='https://via.placeholder.com/150'">
-            <h4>${t.name}</h4>
-            <p style="color: #64748b; font-size: 0.9rem;">${t.subject}</p>
+            <h4 style="color: #1e293b;">${t.name}</h4>
+            <p style="color: #2563eb; font-weight: 600; font-size: 0.9rem;">${t.subject}</p>
           </div>
         `).join('');
       } else {
@@ -247,11 +299,11 @@
     function populateForm() {
       document.getElementById('edit-name').value = currentData.name || '';
       document.getElementById('edit-branch').value = currentData.branch || '';
+      document.getElementById('edit-description').value = currentData.description || '';
       document.getElementById('edit-address').value = currentData.address || '';
       document.getElementById('edit-picture').value = currentData.picture || '';
       document.getElementById('edit-email').value = currentData.email || '';
       document.getElementById('edit-phone').value = currentData.phone || '';
-      document.getElementById('edit-streams').value = Array.isArray(currentData.streams) ? currentData.streams.join(', ') : '';
 
       renderAdminTeachers();
     }
@@ -307,7 +359,6 @@
         return alert("Please fill in your GitHub Username, Repo Name, and Token in the yellow box above!");
       }
 
-      // Save credentials locally so you don't have to re-enter them on this device
       localStorage.setItem('gh_user', user);
       localStorage.setItem('gh_repo', repo);
       localStorage.setItem('gh_token', token);
@@ -315,11 +366,11 @@
       const updatedData = {
         name: document.getElementById('edit-name').value,
         branch: document.getElementById('edit-branch').value,
+        description: document.getElementById('edit-description').value,
         address: document.getElementById('edit-address').value,
         picture: document.getElementById('edit-picture').value,
         email: document.getElementById('edit-email').value,
         phone: document.getElementById('edit-phone').value,
-        streams: document.getElementById('edit-streams').value.split(',').map(s => s.trim()).filter(s => s.length > 0),
         teachers: currentData.teachers || []
       };
 
@@ -331,7 +382,6 @@
         const filePath = "index.html";
         const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${filePath}`;
 
-        // Step 1: Get the current file SHA from GitHub
         const fileRes = await fetch(apiUrl, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -343,17 +393,14 @@
         const fileData = await fileRes.json();
         const currentSha = fileData.sha;
 
-        // Step 2: Decode original file content
         const rawHtml = decodeURIComponent(escape(atob(fileData.content)));
 
-        // Step 3: Replace defaultData inside the code string
         const newDataString = JSON.stringify(updatedData, null, 2);
         const updatedHtml = rawHtml.replace(
           /const defaultData = \{[\s\S]*?\};/,
           `const defaultData = ${newDataString};`
         );
 
-        // Step 4: Encode updated HTML to base64 and push commit to GitHub
         const encodedContent = btoa(unescape(encodeURIComponent(updatedHtml)));
 
         const commitRes = await fetch(apiUrl, {
@@ -363,7 +410,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Update school details via Superuser Panel',
+            message: 'Update school description & details via Superuser Panel',
             content: encodedContent,
             sha: currentSha
           })
