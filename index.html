@@ -65,7 +65,7 @@
     <div class="card" id="contact">
       <h2>Contact Information</h2>
       <p><strong>Email:</strong> <span id="school-email">info@canvasschool.edu</span></p>
-      <p><strong>Phone:</strong> <span id="school-phone">+91 00000 00000</span></p>
+      <p><strong>Phone:</strong> <span id="school-phone">+91 98765 43210</span></p>
     </div>
   </div>
 
@@ -85,6 +85,16 @@
       <!-- Dashboard View -->
       <div id="dashboard" style="display: none; max-height: 75vh; overflow-y: auto; padding-right: 0.5rem;">
         <p style="color: #16a34a; font-weight: bold; margin-bottom: 1rem;">Superuser Dashboard Active</p>
+
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; padding: 0.8rem; border-radius: 6px; margin-bottom: 1rem;">
+          <h4 style="color: #b45309; margin-bottom: 0.4rem;">GitHub Auto-Sync Config</h4>
+          <label style="font-size: 0.85rem;">GitHub Username</label>
+          <input type="text" id="gh-user" placeholder="e.g. mygithubuser" style="margin-bottom: 0.4rem;">
+          <label style="font-size: 0.85rem;">GitHub Repository Name</label>
+          <input type="text" id="gh-repo" placeholder="e.g. school-website" style="margin-bottom: 0.4rem;">
+          <label style="font-size: 0.85rem;">Personal Access Token</label>
+          <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" style="margin-bottom: 0.4rem;">
+        </div>
         
         <label>School/College Name</label>
         <input type="text" id="edit-name">
@@ -130,23 +140,29 @@
 
         <hr style="margin: 1rem 0;">
 
-        <button class="btn" style="width: 100%; margin-bottom: 0.5rem;" onclick="saveData()">Save All Changes</button>
+        <button class="btn" id="save-btn" style="width: 100%; margin-bottom: 0.5rem;" onclick="saveToGitHub()">Save All Changes to GitHub</button>
         <button class="btn btn-danger" style="width: 100%;" onclick="logout()">Logout & Exit</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Permanent Global Default School Data
+    // Global Default Data Block (Rajib Sir preset added here)
     const defaultData = {
       name: "CANVAS SENIOR SECONDARY SCHOOL, Jorhat",
       branch: "Jorhat Campus",
       address: "Phukan-Ali, Tarajan, Jorhat, Assam, 785001",
-      picture: "college.png", // Set to your GitHub filename college.png
+      picture: "college.png",
       email: "info@canvasschool.edu",
       phone: "+91 98765 43210",
       streams: ["ARTS", "SCIENCE", "COMMERCE"],
-      teachers: []
+      teachers: [
+        {
+          name: "RAJIB SIR",
+          subject: "CHEMISTRY",
+          photo: "image.png"
+        }
+      ]
     };
 
     let currentData = defaultData;
@@ -156,13 +172,12 @@
       return url.trim().replace(/^["']|["']$/g, '');
     }
 
-    async function loadData() {
-      const savedLocal = localStorage.getItem('school_data_saved');
-      if (savedLocal) {
-        currentData = JSON.parse(savedLocal);
-      } else {
-        currentData = defaultData;
-      }
+    function loadData() {
+      // Pre-fill GitHub configuration if previously saved in browser
+      document.getElementById('gh-user').value = localStorage.getItem('gh_user') || '';
+      document.getElementById('gh-repo').value = localStorage.getItem('gh_repo') || '';
+      document.getElementById('gh-token').value = localStorage.getItem('gh_token') || '';
+
       renderUI();
     }
 
@@ -277,7 +292,21 @@
       renderAdminTeachers();
     }
 
-    async function saveData() {
+    // Direct GitHub Commit API Handler
+    async function saveToGitHub() {
+      const user = document.getElementById('gh-user').value.trim();
+      const repo = document.getElementById('gh-repo').value.trim();
+      const token = document.getElementById('gh-token').value.trim();
+
+      if (!user || !repo || !token) {
+        return alert("Please fill in your GitHub Username, Repo Name, and Token in the yellow box above!");
+      }
+
+      // Save credentials locally so you don't have to re-enter them on this device
+      localStorage.setItem('gh_user', user);
+      localStorage.setItem('gh_repo', repo);
+      localStorage.setItem('gh_token', token);
+
       const updatedData = {
         name: document.getElementById('edit-name').value,
         branch: document.getElementById('edit-branch').value,
@@ -289,12 +318,68 @@
         teachers: currentData.teachers || []
       };
 
-      localStorage.setItem('school_data_saved', JSON.stringify(updatedData));
-      currentData = updatedData;
-      renderUI();
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
+      saveBtn.innerText = "Saving code to GitHub...";
 
-      alert("Changes saved!");
-      closeAdminModal();
+      try {
+        const filePath = "index.html";
+        const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${filePath}`;
+
+        // Step 1: Get the current file SHA from GitHub
+        const fileRes = await fetch(apiUrl, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (!fileRes.ok) {
+          throw new Error("Failed to find index.html in repository. Check your Username and Repo Name.");
+        }
+
+        const fileData = await fileRes.json();
+        const currentSha = fileData.sha;
+
+        // Step 2: Decode original file content
+        const rawHtml = decodeURIComponent(escape(atob(fileData.content)));
+
+        // Step 3: Replace defaultData inside the code string
+        const newDataString = JSON.stringify(updatedData, null, 2);
+        const updatedHtml = rawHtml.replace(
+          /const defaultData = \{[\s\S]*?\};/,
+          `const defaultData = ${newDataString};`
+        );
+
+        // Step 4: Encode updated HTML to base64 and push commit to GitHub
+        const encodedContent = btoa(unescape(encodeURIComponent(updatedHtml)));
+
+        const commitRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Update school details via Superuser Panel',
+            content: encodedContent,
+            sha: currentSha
+          })
+        });
+
+        if (commitRes.ok) {
+          alert("Success! Code committed to GitHub repository. Render will deploy this update live for all users in ~1 minute.");
+          currentData = updatedData;
+          renderUI();
+          closeAdminModal();
+        } else {
+          const errData = await commitRes.json();
+          alert("GitHub API Error: " + (errData.message || "Failed to commit changes. Check your token permissions."));
+        }
+
+      } catch (err) {
+        alert("Error: " + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerText = "Save All Changes to GitHub";
+      }
     }
 
     loadData();
