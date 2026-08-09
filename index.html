@@ -30,7 +30,7 @@
       color: #facc15;
     }
     
-    /* Round Outer Container */
+    /* Round Outer Container with Pointer Cursor for Secret Trigger */
     .logo-wrapper {
       width: 125px;
       height: 125px;
@@ -43,6 +43,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      user-select: none;
     }
 
     .school-logo { 
@@ -118,20 +120,17 @@
     /* Footer Styles */
     footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem; border-top: 1px solid #1e293b; margin-top: 2rem; }
     footer strong { color: #38bdf8; letter-spacing: 0.5px; }
-
-    /* Secret Trigger Styling */
-    #dev-trigger { cursor: pointer; user-select: none; }
   </style>
 </head>
 <body>
 
   <header>
     <div class="header-content">
-      <div class="logo-wrapper">
+      <div class="logo-wrapper" id="logo-trigger">
         <img id="school-logo" class="school-logo" src="logo.jpg" alt="Canvas School Logo" onerror="this.src='https://via.placeholder.com/125?text=LOGO'">
       </div>
       <h1>
-        <span id="dev-trigger">CANVAS</span> <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
+        CANVAS <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
       </h1>
     </div>
     <p id="school-branch">Tarajan, Jorhat Campus</p>
@@ -389,9 +388,9 @@
 
     let currentData = defaultData;
 
-    // Secret Admin Trigger
+    // Secret Admin Trigger Attached to Logo
     let lastTap = 0;
-    const devTrigger = document.getElementById('dev-trigger');
+    const logoTrigger = document.getElementById('logo-trigger');
 
     function handleDoubleTapTrigger(e) {
       const currentTime = new Date().getTime();
@@ -403,8 +402,8 @@
       lastTap = currentTime;
     }
 
-    devTrigger.addEventListener('dblclick', openAdminModal);
-    devTrigger.addEventListener('touchend', handleDoubleTapTrigger);
+    logoTrigger.addEventListener('dblclick', openAdminModal);
+    logoTrigger.addEventListener('touchend', handleDoubleTapTrigger);
 
     function cleanUrl(url) {
       if (!url) return '';
@@ -516,10 +515,8 @@
 
       const fullTitle = currentData.name || '';
       if (fullTitle.startsWith("CANVAS")) {
-        document.getElementById('dev-trigger').innerText = "CANVAS";
         document.getElementById('school-name-suffix').innerText = fullTitle.substring(6);
       } else {
-        document.getElementById('dev-trigger').innerText = fullTitle;
         document.getElementById('school-name-suffix').innerText = "";
       }
 
@@ -723,7 +720,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Update teacher image for Rajib Lochan Saikia',
+            message: 'Move secret trigger to school logo',
             content: encodedContent,
             sha: currentSha
           })
