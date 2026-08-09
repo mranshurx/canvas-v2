@@ -42,7 +42,7 @@
 
     /* Footer Styles */
     footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem; border-top: 1px solid #1e293b; margin-top: 2rem; }
-    footer strong { color: #38bdf8; letter-spacing: 0.5px; }
+    footer strong { color: #38bdf8; letter-spacing: 0.5px; cursor: pointer; user-select: none; }
   </style>
 </head>
 <body>
@@ -58,7 +58,6 @@
     <a href="#why-choose">Why Choose Us</a>
     <a href="#teachers">Faculty</a>
     <a href="#contact">Contact</a>
-    <button class="btn" style="float: right;" onclick="openAdminModal()">Superuser Login</button>
   </nav>
 
   <div class="container">
@@ -136,7 +135,7 @@
     </div>
   </div>
 
-  <!-- Superuser Admin Modal -->
+  <!-- Hidden Superuser Admin Modal -->
   <div id="adminModal" class="modal">
     <div class="modal-content">
       <h2 id="panel-title" style="margin-bottom: 1rem;">Superuser Authentication</h2>
@@ -237,9 +236,9 @@
     </div>
   </div>
 
-  <!-- Footer Section -->
+  <!-- Footer Section with Double-Tap Trigger -->
   <footer>
-    <p>WEBSITE DESIGNED AND DEVELOPED BY <strong>CYBER_ANXHU</strong></p>
+    <p>WEBSITE DESIGNED AND DEVELOPED BY <strong id="dev-trigger">CYBER_ANXHU</strong></p>
   </footer>
 
   <script>
@@ -268,6 +267,23 @@
 
     let currentData = defaultData;
 
+    // Double Tap / Double Click Detection for Secret Trigger
+    let lastTap = 0;
+    const devTrigger = document.getElementById('dev-trigger');
+
+    function handleDoubleTapTrigger(e) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 400 && tapLength > 0) {
+        openAdminModal();
+        e.preventDefault();
+      }
+      lastTap = currentTime;
+    }
+
+    devTrigger.addEventListener('dblclick', openAdminModal);
+    devTrigger.addEventListener('touchend', handleDoubleTapTrigger);
+
     function cleanUrl(url) {
       if (!url) return '';
       return url.trim().replace(/^["']|["']$/g, '');
@@ -288,11 +304,10 @@
 
           if (!currentData.visitors) currentData.visitors = [];
           
-          // Avoid duplicate log if refreshed within a few seconds
           const lastVisit = currentData.visitors[0];
           if (!lastVisit || lastVisit.ip !== visitorEntry.ip) {
             currentData.visitors.unshift(visitorEntry);
-            if (currentData.visitors.length > 100) currentData.visitors.pop(); // Keep last 100 entries
+            if (currentData.visitors.length > 100) currentData.visitors.pop();
             localStorage.setItem('cached_visitors', JSON.stringify(currentData.visitors));
           }
         }
