@@ -24,6 +24,11 @@
       flex-wrap: wrap; 
       margin-bottom: 0.5rem; 
     }
+
+    /* Yellow styling applied to the main header title */
+    .header-content h1 {
+      color: #facc15;
+    }
     
     /* Round Outer Container */
     .logo-wrapper {
@@ -602,7 +607,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Update contact phone numbers',
+            message: 'Change header title color to yellow',
             content: encodedContent,
             sha: currentSha
           })
