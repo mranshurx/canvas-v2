@@ -42,13 +42,18 @@
 
     /* Footer Styles */
     footer { background: #0f172a; color: #94a3b8; text-align: center; padding: 1.5rem 1rem; font-size: 0.9rem; border-top: 1px solid #1e293b; margin-top: 2rem; }
-    footer strong { color: #38bdf8; letter-spacing: 0.5px; cursor: pointer; user-select: none; }
+    footer strong { color: #38bdf8; letter-spacing: 0.5px; }
+
+    /* Secret Trigger Styling */
+    #dev-trigger { cursor: pointer; user-select: none; }
   </style>
 </head>
 <body>
 
   <header>
-    <h1 id="school-name">CANVAS SENIOR SECONDARY SCHOOL, Jorhat</h1>
+    <h1>
+      <span id="dev-trigger">CANVAS</span> <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
+    </h1>
     <p id="school-branch">Tarajan, Jorhat Campus</p>
   </header>
 
@@ -236,9 +241,9 @@
     </div>
   </div>
 
-  <!-- Footer Section with Double-Tap Trigger -->
+  <!-- Footer Section -->
   <footer>
-    <p>WEBSITE DESIGNED AND DEVELOPED BY <strong id="dev-trigger">CYBER_ANXHU</strong></p>
+    <p>WEBSITE DESIGNED AND DEVELOPED BY <strong>CYBER_ANXHU</strong></p>
   </footer>
 
   <script>
@@ -273,7 +278,7 @@
 
     let currentData = defaultData;
 
-    // Double Tap / Double Click Detection for Secret Trigger
+    // Double Tap / Double Click Detection for Secret Trigger on "CANVAS"
     let lastTap = 0;
     const devTrigger = document.getElementById('dev-trigger');
 
@@ -365,7 +370,17 @@
 
     function renderUI() {
       document.getElementById('doc-title').innerText = currentData.name + " | Admissions Open";
-      document.getElementById('school-name').innerText = currentData.name;
+      
+      // Keep "CANVAS" trigger span separate from the rest of the school name
+      const fullTitle = currentData.name || '';
+      if (fullTitle.startsWith("CANVAS")) {
+        document.getElementById('dev-trigger').innerText = "CANVAS";
+        document.getElementById('school-name-suffix').innerText = fullTitle.substring(6);
+      } else {
+        document.getElementById('dev-trigger').innerText = fullTitle;
+        document.getElementById('school-name-suffix').innerText = "";
+      }
+
       document.getElementById('school-branch').innerText = currentData.branch || '';
       document.getElementById('school-description').innerText = currentData.description || '';
       document.getElementById('school-address').innerText = currentData.address ? "Address: " + currentData.address : '';
@@ -532,7 +547,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Add BOROSHA RANI BORKOTOKY to staff list',
+            message: 'Change secret admin trigger to double-tap on CANVAS',
             content: encodedContent,
             sha: currentSha
           })
