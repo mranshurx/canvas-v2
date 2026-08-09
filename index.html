@@ -314,8 +314,8 @@
         <h3 style="margin-bottom: 0.5rem;">Manage Photo Gallery</h3>
         <div id="admin-gallery-list"></div>
         <div style="margin-top: 0.8rem;">
-          <label>Add New Photo Path (e.g. <code>gallery/event1.jpg</code> or external URL)</label>
-          <input type="text" id="new-gallery-img" placeholder="gallery/photo.jpg">
+          <label>Add New Photo Path (e.g. <code>12.png</code> or external URL)</label>
+          <input type="text" id="new-gallery-img" placeholder="12.png">
           <button class="btn" onclick="addGalleryImage()">Add To Gallery</button>
         </div>
 
@@ -365,13 +365,11 @@
       email: "info@canvasschool.edu",
       phone: "+91 7896369932 / +91 8761906305",
       gallery: [
-        "gallery/event1.jpg",
-        "gallery/event2.jpg",
-        "gallery/event3.jpg"
+        "12.png"
       ],
       teachers: [
         { name: "CHINMOYEE MAHANTA", subject: "PRINCIPAL", photo: "chin.jpg" },
-        { name: "RAJIB LOCHAN SAIKIA", subject: "CHEMISTRY", photo: "image.png" },
+        { name: "RAJIB LOCHAN SAIKIA", subject: "CHEMISTRY", photo: "12.png" },
         { name: "RITURAJ KALITA", subject: "PHYSICS", photo: "rituraj.png" },
         { name: "SANJIB BASFOR", subject: "MATHEMATICS", photo: "sanjib.jpg" },
         { name: "DIBYAJYOTI BORA", subject: "ENGLISH", photo: "dibya.jpg" },
@@ -729,7 +727,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Add gallery feature and update site configuration',
+            message: 'Set gallery default image to root 12.png',
             content: encodedContent,
             sha: currentSha
           })
