@@ -45,7 +45,6 @@
       justify-content: center;
     }
 
-    /* Zooms past outer photo background to perfectly isolate the circular emblem */
     .school-logo { 
       width: 100%; 
       height: 100%; 
@@ -54,7 +53,9 @@
     }
     
     nav { background: #0f172a; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; }
-    nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
+    nav a { color: white; text-decoration: none; margin: 0 12px; font-weight: bold; cursor: pointer; }
+    nav a:hover { color: #facc15; }
+    
     .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
     .card { background: white; padding: 1.8rem; margin-bottom: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
@@ -64,13 +65,48 @@
     .btn:hover { background: #1d4ed8; }
     .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
     .btn-danger:hover { background: #b91c1c; }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); justify-content: center; align-items: center; z-index: 1000; }
+    
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
     .modal-content { background: white; padding: 2rem; border-radius: 8px; width: 90%; max-width: 700px; }
+    
+    /* Fullscreen Gallery Window Styles */
+    .gallery-modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 1000px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      background: #f1f5f9;
+      aspect-ratio: 4/3;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .gallery-item img:hover {
+      transform: scale(1.05);
+    }
+
     input, textarea { width: 100%; padding: 0.5rem; margin: 0.4rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
     textarea { resize: vertical; min-height: 100px; }
     img.hero-img { width: 100%; max-height: 380px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; background-color: #e2e8f0; }
     img.teacher-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background-color: #cbd5e1; }
-    .teacher-item { display: flex; justify-content: space-between; align-items: center; background: #f1f5f9; padding: 0.6rem 0.8rem; margin-top: 0.5rem; border-radius: 6px; }
+    .teacher-item, .gallery-manage-item { display: flex; justify-content: space-between; align-items: center; background: #f1f5f9; padding: 0.6rem 0.8rem; margin-top: 0.5rem; border-radius: 6px; }
     
     /* Visitor Table Styles */
     .visitor-table-container { max-height: 200px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 1rem; }
@@ -107,6 +143,7 @@
     <a href="#why-choose">Why Choose Us</a>
     <a href="#teachers">Faculty & Staff</a>
     <a href="#contact">Contact</a>
+    <a onclick="openGalleryModal()">Gallery</a>
   </nav>
 
   <div class="container">
@@ -181,6 +218,18 @@
       <p><strong>Address:</strong> Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
       <p><strong>Email:</strong> <span id="school-email">info@canvasschool.edu</span></p>
       <p><strong>Phone:</strong> <span id="school-phone">+91 7896369932 / +91 8761906305</span></p>
+    </div>
+  </div>
+
+  <!-- GALLERY MODAL WINDOW -->
+  <div id="galleryModal" class="modal">
+    <div class="gallery-modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="color: #1e3a8a;">Photo Gallery</h2>
+        <button class="btn btn-danger" onclick="closeGalleryModal()">Close Window ✖</button>
+      </div>
+      <p style="color: #64748b; font-size: 0.95rem;">Campus life, events, and memories at Canvas Senior Secondary School.</p>
+      <div id="gallery-grid" class="gallery-grid"></div>
     </div>
   </div>
 
@@ -261,6 +310,17 @@
 
         <hr style="margin: 1.5rem 0;">
 
+        <!-- Manage Gallery Section -->
+        <h3 style="margin-bottom: 0.5rem;">Manage Photo Gallery</h3>
+        <div id="admin-gallery-list"></div>
+        <div style="margin-top: 0.8rem;">
+          <label>Add New Photo Path (e.g. <code>gallery/event1.jpg</code> or external URL)</label>
+          <input type="text" id="new-gallery-img" placeholder="gallery/photo.jpg">
+          <button class="btn" onclick="addGalleryImage()">Add To Gallery</button>
+        </div>
+
+        <hr style="margin: 1.5rem 0;">
+
         <!-- Manage Existing Faculty & Staff -->
         <h3 style="margin-bottom: 0.5rem;">Current Faculty & Staff Members</h3>
         <div id="admin-teachers-list"></div>
@@ -304,6 +364,11 @@
       picture: "college.png",
       email: "info@canvasschool.edu",
       phone: "+91 7896369932 / +91 8761906305",
+      gallery: [
+        "gallery/event1.jpg",
+        "gallery/event2.jpg",
+        "gallery/event3.jpg"
+      ],
       teachers: [
         { name: "CHINMOYEE MAHANTA", subject: "PRINCIPAL", photo: "chin.jpg" },
         { name: "RAJIB LOCHAN SAIKIA", subject: "CHEMISTRY", photo: "image.png" },
@@ -326,7 +391,7 @@
 
     let currentData = defaultData;
 
-    // Double Tap / Double Click Detection for Secret Trigger on "CANVAS"
+    // Secret Admin Trigger
     let lastTap = 0;
     const devTrigger = document.getElementById('dev-trigger');
 
@@ -346,6 +411,32 @@
     function cleanUrl(url) {
       if (!url) return '';
       return url.trim().replace(/^["']|["']$/g, '');
+    }
+
+    // Modal Control Functions
+    function openGalleryModal() {
+      renderGallery();
+      document.getElementById('galleryModal').style.display = 'flex';
+    }
+
+    function closeGalleryModal() {
+      document.getElementById('galleryModal').style.display = 'none';
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      const images = currentData.gallery || [];
+      
+      if (images.length === 0) {
+        grid.innerHTML = `<p style="color: #64748b; grid-column: 1/-1;">No photos added to gallery yet.</p>`;
+        return;
+      }
+
+      grid.innerHTML = images.map(img => `
+        <div class="gallery-item">
+          <img src="${cleanUrl(img)}" alt="Gallery Image" onerror="this.src='https://via.placeholder.com/300x220?text=Photo+Not+Found'">
+        </div>
+      `).join('');
     }
 
     // Capture Visitor Details on Page Load
@@ -429,7 +520,6 @@
         logoWrapper.style.display = 'none';
       }
 
-      // Keep "CANVAS" trigger span separate from the rest of the school name
       const fullTitle = currentData.name || '';
       if (fullTitle.startsWith("CANVAS")) {
         document.getElementById('dev-trigger').innerText = "CANVAS";
@@ -500,7 +590,38 @@
       document.getElementById('edit-email').value = currentData.email || '';
       document.getElementById('edit-phone').value = currentData.phone || '';
 
+      renderAdminGallery();
       renderAdminTeachers();
+    }
+
+    function renderAdminGallery() {
+      const container = document.getElementById('admin-gallery-list');
+      if (!currentData.gallery || currentData.gallery.length === 0) {
+        container.innerHTML = "<p style='color: #64748b; font-size: 0.9rem;'>No gallery images added.</p>";
+        return;
+      }
+
+      container.innerHTML = currentData.gallery.map((img, index) => `
+        <div class="gallery-manage-item">
+          <span style="font-size: 0.85rem; word-break: break-all;">${img}</span>
+          <button class="btn btn-danger" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;" onclick="removeGalleryImage(${index})">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    function addGalleryImage() {
+      const imgPath = document.getElementById('new-gallery-img').value.trim();
+      if (!imgPath) return alert("Please enter an image path or URL.");
+
+      if (!currentData.gallery) currentData.gallery = [];
+      currentData.gallery.push(imgPath);
+      document.getElementById('new-gallery-img').value = '';
+      renderAdminGallery();
+    }
+
+    function removeGalleryImage(index) {
+      currentData.gallery.splice(index, 1);
+      renderAdminGallery();
     }
 
     function renderAdminTeachers() {
@@ -567,6 +688,7 @@
         picture: document.getElementById('edit-picture').value,
         email: document.getElementById('edit-email').value,
         phone: document.getElementById('edit-phone').value,
+        gallery: currentData.gallery || [],
         teachers: currentData.teachers || [],
         visitors: currentData.visitors || []
       };
@@ -607,7 +729,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Change header title color to yellow',
+            message: 'Add gallery feature and update site configuration',
             content: encodedContent,
             sha: currentSha
           })
