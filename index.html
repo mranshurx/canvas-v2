@@ -20,22 +20,32 @@
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      gap: 1.2rem; 
+      gap: 1.5rem; 
       flex-wrap: wrap; 
       margin-bottom: 0.5rem; 
     }
     
-    /* Perfect Big Round Logo Styles */
+    /* Round Outer Container */
+    .logo-wrapper {
+      width: 125px;
+      height: 125px;
+      border-radius: 50%;
+      border: 3.5px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      background-color: #000000;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Zooms past outer photo background to perfectly isolate the circular emblem */
     .school-logo { 
-      width: 110px; 
-      height: 110px; 
-      object-fit: contain; /* Prevents stretching and cropping */
-      padding: 6px;        /* Adds space so full logo fits nicely in the circle */
-      border-radius: 50%; 
-      border: 3px solid #ffffff; 
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); 
-      background-color: #ffffff; 
-      flex-shrink: 0; 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover;
+      transform: scale(1.25);
     }
     
     nav { background: #0f172a; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; }
@@ -76,7 +86,9 @@
 
   <header>
     <div class="header-content">
-      <img id="school-logo" class="school-logo" src="logo.jpg" alt="Canvas School Logo" onerror="this.style.display='none'">
+      <div class="logo-wrapper">
+        <img id="school-logo" class="school-logo" src="logo.jpg" alt="Canvas School Logo" onerror="this.parentElement.style.display='none'">
+      </div>
       <h1>
         <span id="dev-trigger">CANVAS</span> <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
       </h1>
@@ -404,11 +416,12 @@
       
       // Render School Logo
       const logoImg = document.getElementById('school-logo');
+      const logoWrapper = logoImg.parentElement;
       if (currentData.logo) {
         logoImg.src = cleanUrl(currentData.logo);
-        logoImg.style.display = 'block';
+        logoWrapper.style.display = 'flex';
       } else {
-        logoImg.style.display = 'none';
+        logoWrapper.style.display = 'none';
       }
 
       // Keep "CANVAS" trigger span separate from the rest of the school name
@@ -589,7 +602,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Fix logo alignment inside circle container',
+            message: 'Isolate and center circular emblem perfectly',
             content: encodedContent,
             sha: currentSha
           })
