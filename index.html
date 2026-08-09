@@ -56,7 +56,7 @@
     <a href="#about">About Us</a>
     <a href="#streams">Academic Streams</a>
     <a href="#why-choose">Why Choose Us</a>
-    <a href="#teachers">Faculty</a>
+    <a href="#teachers">Faculty & Staff</a>
     <a href="#contact">Contact</a>
   </nav>
 
@@ -120,9 +120,9 @@
       </div>
     </div>
 
-    <!-- Faculty Members -->
+    <!-- Faculty & Staff Members -->
     <div class="card" id="teachers">
-      <h2 style="color: #1e3a8a; margin-bottom: 1rem;">Our Faculty</h2>
+      <h2 style="color: #1e3a8a; margin-bottom: 1rem;">Our Faculty & Staff</h2>
       <div id="teachers-grid" class="grid"></div>
     </div>
 
@@ -209,24 +209,24 @@
 
         <hr style="margin: 1.5rem 0;">
 
-        <!-- Manage Existing Faculty -->
-        <h3 style="margin-bottom: 0.5rem;">Current Faculty Members</h3>
+        <!-- Manage Existing Faculty & Staff -->
+        <h3 style="margin-bottom: 0.5rem;">Current Faculty & Staff Members</h3>
         <div id="admin-teachers-list"></div>
 
         <hr style="margin: 1.5rem 0;">
 
-        <!-- Add New Faculty -->
-        <h3 style="margin-bottom: 0.5rem;">Add New Faculty Member</h3>
-        <label>Teacher Name</label>
+        <!-- Add New Faculty / Staff -->
+        <h3 style="margin-bottom: 0.5rem;">Add New Member</h3>
+        <label>Member Name</label>
         <input type="text" id="new-teacher-name" placeholder="e.g. Mr. Sharma">
         
-        <label>Subject / Department</label>
-        <input type="text" id="new-teacher-sub" placeholder="e.g. Physics">
+        <label>Subject / Role</label>
+        <input type="text" id="new-teacher-sub" placeholder="e.g. Physics / Office Incharge">
         
         <label>Photo (URL or GitHub filename e.g. rituraj.png)</label>
         <input type="text" id="new-teacher-img" placeholder="Photo filename or URL">
         
-        <button class="btn" style="margin-bottom: 1.5rem;" onclick="addTeacher()">Add Faculty Member</button>
+        <button class="btn" style="margin-bottom: 1.5rem;" onclick="addTeacher()">Add Member</button>
 
         <hr style="margin: 1rem 0;">
 
@@ -265,7 +265,8 @@
         { name: "MAMPI BORDOLOI DUTTA", subject: "EDUCATION AND BIHU", photo: "mampi.jpg" },
         { name: "SUSMITA KUMARI", subject: "BIOLOGY", photo: "susmrita.jpg" },
         { name: "KARISHMITA DAS", subject: "SOCIOLOGY", photo: "karishmita.jpg" },
-        { name: "SANJUKTA BHARADWAJ", subject: "GEOGRAPHY", photo: "sanjukta.jpg" }
+        { name: "SANJUKTA BHARADWAJ", subject: "GEOGRAPHY", photo: "sanjukta.jpg" },
+        { name: "BOROSHA RANI BORKOTOKY", subject: "OFFICE INCHARGE", photo: "borosha.jpg" }
       ],
       visitors: []
     };
@@ -388,7 +389,7 @@
           </div>
         `).join('');
       } else {
-        teachersGrid.innerHTML = `<p style="color: #64748b;">No faculty members listed yet.</p>`;
+        teachersGrid.innerHTML = `<p style="color: #64748b;">No members listed yet.</p>`;
       }
     }
 
@@ -431,7 +432,7 @@
     function renderAdminTeachers() {
       const container = document.getElementById('admin-teachers-list');
       if (!currentData.teachers || currentData.teachers.length === 0) {
-        container.innerHTML = "<p style='color: #64748b; font-size: 0.9rem;'>No faculty added yet.</p>";
+        container.innerHTML = "<p style='color: #64748b; font-size: 0.9rem;'>No members added yet.</p>";
         return;
       }
 
@@ -456,7 +457,7 @@
       const photo = document.getElementById('new-teacher-img').value.trim() || "https://via.placeholder.com/150";
 
       if (!name || !subject) {
-        return alert("Please provide both a Teacher Name and Subject.");
+        return alert("Please provide both a Name and Subject/Role.");
       }
 
       if (!currentData.teachers) currentData.teachers = [];
@@ -531,7 +532,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Add SANJUKTA BHARADWAJ to faculty list',
+            message: 'Add BOROSHA RANI BORKOTOKY to staff list',
             content: encodedContent,
             sha: currentSha
           })
