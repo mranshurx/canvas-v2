@@ -25,11 +25,12 @@
       margin-bottom: 0.5rem; 
     }
     
-    /* Big Round Logo Styles */
+    /* Perfect Big Round Logo Styles */
     .school-logo { 
       width: 110px; 
       height: 110px; 
-      object-fit: cover; 
+      object-fit: contain; /* Prevents stretching and cropping */
+      padding: 6px;        /* Adds space so full logo fits nicely in the circle */
       border-radius: 50%; 
       border: 3px solid #ffffff; 
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); 
@@ -588,7 +589,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Make logo round and larger',
+            message: 'Fix logo alignment inside circle container',
             content: encodedContent,
             sha: currentSha
           })
