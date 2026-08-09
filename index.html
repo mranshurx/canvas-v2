@@ -128,7 +128,7 @@
   <header>
     <div class="header-content">
       <div class="logo-wrapper">
-        <img id="school-logo" class="school-logo" src="logo.jpg" alt="Canvas School Logo" onerror="this.parentElement.style.display='none'">
+        <img id="school-logo" class="school-logo" src="logo.jpg" alt="Canvas School Logo" onerror="this.src='https://via.placeholder.com/125?text=LOGO'">
       </div>
       <h1>
         <span id="dev-trigger">CANVAS</span> <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
@@ -508,14 +508,10 @@
     function renderUI() {
       document.getElementById('doc-title').innerText = currentData.name + " | Admissions Open";
       
-      // Render School Logo
+      // Render School Logo safely without hiding wrapper
       const logoImg = document.getElementById('school-logo');
-      const logoWrapper = logoImg.parentElement;
       if (currentData.logo) {
         logoImg.src = cleanUrl(currentData.logo);
-        logoWrapper.style.display = 'flex';
-      } else {
-        logoWrapper.style.display = 'none';
       }
 
       const fullTitle = currentData.name || '';
@@ -727,7 +723,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Set gallery default image to root 12.png',
+            message: 'Fix logo rendering and preserve wrapper',
             content: encodedContent,
             sha: currentSha
           })
