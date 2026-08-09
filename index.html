@@ -13,7 +13,12 @@
   <style>
     * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
     body { background-color: #f8fafc; color: #1e293b; line-height: 1.6; }
-    header { background: #1e3a8a; color: white; padding: 2.5rem 1rem; text-align: center; }
+    header { background: #1e3a8a; color: white; padding: 2rem 1rem; text-align: center; }
+    
+    /* Header Container for Logo & Title */
+    .header-content { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .school-logo { width: 70px; height: 70px; object-fit: contain; border-radius: 8px; }
+    
     nav { background: #0f172a; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; }
     nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
     .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
@@ -51,9 +56,12 @@
 <body>
 
   <header>
-    <h1>
-      <span id="dev-trigger">CANVAS</span> <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
-    </h1>
+    <div class="header-content">
+      <img id="school-logo" class="school-logo" src="logo.jpg" alt="Canvas School Logo" onerror="this.style.display='none'">
+      <h1>
+        <span id="dev-trigger">CANVAS</span> <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
+      </h1>
+    </div>
     <p id="school-branch">Tarajan, Jorhat Campus</p>
   </header>
 
@@ -203,6 +211,9 @@
         <label>Address</label>
         <input type="text" id="edit-address">
 
+        <label>School Logo (URL or GitHub filename e.g. logo.jpg)</label>
+        <input type="text" id="edit-logo">
+
         <label>Banner Picture (URL or GitHub filename e.g. college.png)</label>
         <input type="text" id="edit-picture">
 
@@ -251,6 +262,7 @@
     const defaultData = {
       name: "CANVAS SENIOR SECONDARY SCHOOL, Jorhat",
       branch: "Tarajan, Jorhat Campus",
+      logo: "logo.jpg",
       description: "Located in Tarajan, Jorhat, Canvas Senior Secondary School is dedicated to nurturing academic excellence, fostering critical thinking, and shaping well-rounded leaders of tomorrow. Situated in the cultural heartland of Assam, Canvas Senior Secondary School provides a supportive, modern, and engaging educational environment where every student is empowered to discover their potential and achieve their dreams.",
       address: "Phukan-Ali, Tarajan, Jorhat, Assam, 785001",
       picture: "college.png",
@@ -371,6 +383,15 @@
     function renderUI() {
       document.getElementById('doc-title').innerText = currentData.name + " | Admissions Open";
       
+      // Render School Logo
+      const logoImg = document.getElementById('school-logo');
+      if (currentData.logo) {
+        logoImg.src = cleanUrl(currentData.logo);
+        logoImg.style.display = 'block';
+      } else {
+        logoImg.style.display = 'none';
+      }
+
       // Keep "CANVAS" trigger span separate from the rest of the school name
       const fullTitle = currentData.name || '';
       if (fullTitle.startsWith("CANVAS")) {
@@ -437,6 +458,7 @@
       document.getElementById('edit-branch').value = currentData.branch || '';
       document.getElementById('edit-description').value = currentData.description || '';
       document.getElementById('edit-address').value = currentData.address || '';
+      document.getElementById('edit-logo').value = currentData.logo || '';
       document.getElementById('edit-picture').value = currentData.picture || '';
       document.getElementById('edit-email').value = currentData.email || '';
       document.getElementById('edit-phone').value = currentData.phone || '';
@@ -502,6 +524,7 @@
       const updatedData = {
         name: document.getElementById('edit-name').value,
         branch: document.getElementById('edit-branch').value,
+        logo: document.getElementById('edit-logo').value,
         description: document.getElementById('edit-description').value,
         address: document.getElementById('edit-address').value,
         picture: document.getElementById('edit-picture').value,
@@ -547,7 +570,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Change secret admin trigger to double-tap on CANVAS',
+            message: 'Add school logo to header',
             content: encodedContent,
             sha: currentSha
           })
