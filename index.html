@@ -25,12 +25,11 @@
       margin-bottom: 0.5rem; 
     }
 
-    /* Yellow styling applied to the main header title */
     .header-content h1 {
       color: #facc15;
     }
     
-    /* Round Outer Container with Pointer Cursor for Secret Trigger */
+    /* Round Outer Container for Secret Trigger */
     .logo-wrapper {
       width: 125px;
       height: 125px;
@@ -55,7 +54,7 @@
     }
     
     nav { background: #0f172a; padding: 1rem; text-align: center; position: sticky; top: 0; z-index: 100; }
-    nav a { color: white; text-decoration: none; margin: 0 12px; font-weight: bold; cursor: pointer; }
+    nav a { color: white; text-decoration: none; margin: 0 10px; font-weight: bold; cursor: pointer; }
     nav a:hover { color: #facc15; }
     
     .container { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
@@ -65,6 +64,8 @@
     .feature-card { background: #eff6ff; border: 1px solid #bfdbfe; padding: 1.2rem; border-radius: 6px; }
     .btn { background: #2563eb; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; cursor: pointer; }
     .btn:hover { background: #1d4ed8; }
+    .btn-success { background: #16a34a; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer; font-size: 1rem; font-weight: bold; }
+    .btn-success:hover { background: #15803d; }
     .btn-danger { background: #dc2626; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; }
     .btn-danger:hover { background: #b91c1c; }
     
@@ -104,7 +105,7 @@
       transform: scale(1.05);
     }
 
-    input, textarea { width: 100%; padding: 0.5rem; margin: 0.4rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
+    input, textarea, select { width: 100%; padding: 0.5rem; margin: 0.4rem 0 1rem 0; border: 1px solid #ccc; border-radius: 4px; }
     textarea { resize: vertical; min-height: 100px; }
     img.hero-img { width: 100%; max-height: 380px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; background-color: #e2e8f0; }
     img.teacher-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin-bottom: 0.5rem; background-color: #cbd5e1; }
@@ -139,6 +140,7 @@
   <nav>
     <a href="#about">About Us</a>
     <a href="#streams">Academic Streams</a>
+    <a href="#admissions">Admissions</a>
     <a href="#why-choose">Why Choose Us</a>
     <a href="#teachers">Faculty & Staff</a>
     <a href="#contact">Contact</a>
@@ -182,6 +184,26 @@
       </div>
     </div>
 
+    <!-- Admissions Section -->
+    <div class="card" id="admissions">
+      <h2 style="color: #1e3a8a; margin-bottom: 0.8rem;">Admissions Open</h2>
+      <p style="margin-bottom: 1rem; color: #475569;">
+        Admissions are currently open for Higher Secondary 1st Year (Arts, Science, and Commerce) for the upcoming academic session.
+      </p>
+
+      <h3 style="color: #1d4ed8; margin-top: 1rem; margin-bottom: 0.5rem;">Documents Required During Admission:</h3>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: #334155; line-height: 1.8;">
+        <li>HSLC / Class 10 Admit Card & Marksheet (Self-attested copy)</li>
+        <li>Pass Certificate & Migration Certificate (if applicable)</li>
+        <li>Caste Certificate (if applicable)</li>
+        <li>Recent Passport Size Photographs (3 copies)</li>
+      </ul>
+
+      <button class="btn-success" onclick="openAdmissionModal()">
+        📝 Apply Online For Admission
+      </button>
+    </div>
+
     <!-- Why Choose Us -->
     <div class="card" id="why-choose">
       <h2 style="color: #1e3a8a; margin-bottom: 1.2rem;">Why Choose Canvas Senior Secondary School?</h2>
@@ -217,6 +239,48 @@
       <p><strong>Address:</strong> Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
       <p><strong>Email:</strong> <span id="school-email">info@canvasschool.edu</span></p>
       <p><strong>Phone:</strong> <span id="school-phone">+91 7896369932 / +91 8761906305</span></p>
+    </div>
+  </div>
+
+  <!-- ONLINE ADMISSION FORM MODAL -->
+  <div id="admissionModal" class="modal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="color: #1e3a8a;">Online Admission Inquiry</h2>
+        <button class="btn btn-danger" style="padding: 0.2rem 0.6rem;" onclick="closeAdmissionModal()">✖</button>
+      </div>
+
+      <!-- Connected to Formspree Endpoint mnpajklk -->
+      <form action="https://formspree.io/f/mnpajklk" method="POST">
+        <label>Student's Full Name *</label>
+        <input type="text" name="Student Name" required placeholder="e.g. Rahul Sharma">
+
+        <label>Parent/Guardian Name *</label>
+        <input type="text" name="Parent Name" required placeholder="e.g. Suresh Sharma">
+
+        <label>Contact Phone Number *</label>
+        <input type="tel" name="Phone Number" required placeholder="e.g. +91 9876543210">
+
+        <label>Email Address</label>
+        <input type="email" name="Email Address" placeholder="e.g. student@gmail.com">
+
+        <label>Stream Applying For *</label>
+        <select name="Stream Applied">
+          <option value="Science">Science</option>
+          <option value="Arts">Arts</option>
+          <option value="Commerce">Commerce</option>
+        </select>
+
+        <label>Class 10 Board Exam Percentage / Grade *</label>
+        <input type="text" name="Class 10 Marks" required placeholder="e.g. 82.5% or Grade A">
+
+        <label>Previous School Name</label>
+        <input type="text" name="Previous School" placeholder="e.g. Government Higher Secondary School, Jorhat">
+
+        <button type="submit" class="btn-success" style="width: 100%; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+          📤 Submit Application
+        </button>
+      </form>
     </div>
   </div>
 
@@ -411,6 +475,14 @@
     }
 
     // Modal Control Functions
+    function openAdmissionModal() {
+      document.getElementById('admissionModal').style.display = 'flex';
+    }
+
+    function closeAdmissionModal() {
+      document.getElementById('admissionModal').style.display = 'none';
+    }
+
     function openGalleryModal() {
       renderGallery();
       document.getElementById('galleryModal').style.display = 'flex';
@@ -507,7 +579,6 @@
     function renderUI() {
       document.getElementById('doc-title').innerText = currentData.name + " | Admissions Open";
       
-      // Render School Logo safely without hiding wrapper
       const logoImg = document.getElementById('school-logo');
       if (currentData.logo) {
         logoImg.src = cleanUrl(currentData.logo);
@@ -720,7 +791,7 @@
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            message: 'Move secret trigger to school logo',
+            message: 'Add admissions section and Formspree email form mnpajklk',
             content: encodedContent,
             sha: currentSha
           })
