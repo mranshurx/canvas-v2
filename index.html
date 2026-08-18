@@ -985,5 +985,41 @@
 
     loadData();
   </script>
+<div class="copyright-bar">
+  <span>Copyright © 2026 All rights reserved.</span>
+  <span>Designed with ❤️ by CYBER_ANXHU</span>
+</div>
+
+<style>
+  .copyright-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 14px 24px;
+    background: #020617;
+    color: #94a3b8;
+    border-top: 1px solid #1e293b;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .copyright-bar span:last-child {
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    .copyright-bar {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .copyright-bar span:last-child {
+      text-align: center;
+    }
+  }
+</style>
+
 </body>
 </html>
