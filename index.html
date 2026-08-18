@@ -244,6 +244,282 @@
       .modal-content,.gallery-modal-content{width:100%;border-radius:15px}
     }
   </style>
+
+<style id="premium-school-theme">
+  :root {
+    --navy: #07152f;
+    --navy-2: #0b1f42;
+    --blue: #2563eb;
+    --blue-2: #38bdf8;
+    --gold: #f5c451;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --surface: rgba(255,255,255,.92);
+    --line: rgba(148,163,184,.22);
+    --shadow: 0 20px 55px rgba(7,21,47,.10);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(56,189,248,.10), transparent 28rem),
+      radial-gradient(circle at 90% 8%, rgba(245,196,81,.10), transparent 25rem),
+      #f6f8fc !important;
+    color: var(--ink) !important;
+  }
+
+  header {
+    position: relative;
+    overflow: hidden;
+    padding: 4.5rem 1rem 3.8rem !important;
+    background:
+      linear-gradient(135deg, rgba(7,21,47,.98), rgba(11,31,66,.94)),
+      #07152f !important;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 16px 45px rgba(7,21,47,.18);
+  }
+
+  header::before,
+  header::after {
+    content: "";
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+  header::before {
+    width: 420px; height: 420px;
+    right: -160px; top: -250px;
+    background: rgba(56,189,248,.12);
+    filter: blur(2px);
+  }
+
+  header::after {
+    width: 300px; height: 300px;
+    left: -170px; bottom: -210px;
+    background: rgba(245,196,81,.10);
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 1;
+    gap: 2rem !important;
+  }
+
+  .logo-wrapper {
+    width: 138px !important;
+    height: 138px !important;
+    border: 4px solid rgba(255,255,255,.95) !important;
+    box-shadow: 0 0 0 8px rgba(255,255,255,.06), 0 20px 45px rgba(0,0,0,.30) !important;
+  }
+
+  .header-content h1 {
+    max-width: 850px;
+    font-size: clamp(2rem, 5vw, 4rem) !important;
+    line-height: 1.04;
+    letter-spacing: -.035em;
+    text-shadow: 0 5px 30px rgba(0,0,0,.22);
+  }
+
+  #school-branch {
+    position: relative;
+    z-index: 1;
+    color: rgba(255,255,255,.78) !important;
+    font-size: 1.05rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  nav {
+    background: rgba(4,15,35,.90) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 10px 30px rgba(7,21,47,.16);
+    padding: .85rem 1rem !important;
+  }
+
+  nav a {
+    display: inline-block;
+    padding: .55rem .8rem;
+    margin: 3px 2px !important;
+    border-radius: 999px;
+    color: rgba(255,255,255,.82) !important;
+    font-size: .9rem;
+    transition: .25s ease;
+  }
+
+  nav a:hover {
+    color: white !important;
+    background: rgba(56,189,248,.13);
+    transform: translateY(-1px);
+  }
+
+  .container {
+    max-width: 1180px !important;
+    margin: 3rem auto !important;
+  }
+
+  .card {
+    position: relative;
+    overflow: hidden;
+    padding: 2.2rem !important;
+    margin-bottom: 1.8rem !important;
+    border: 1px solid var(--line);
+    border-radius: 22px !important;
+    background: var(--surface) !important;
+    box-shadow: var(--shadow) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-2), var(--gold));
+    opacity: .85;
+  }
+
+  .card h2 {
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    letter-spacing: -.025em;
+  }
+
+  img.hero-img {
+    max-height: 430px !important;
+    border-radius: 17px !important;
+    box-shadow: 0 16px 40px rgba(15,23,42,.13);
+  }
+
+  .grid {
+    gap: 1.25rem !important;
+  }
+
+  .stream-card,
+  .feature-card {
+    position: relative;
+    border-radius: 17px !important;
+    border: 1px solid var(--line) !important;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .stream-card:hover,
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 35px rgba(15,23,42,.10);
+    border-color: rgba(37,99,235,.30) !important;
+  }
+
+  .stream-card {
+    border-left: 4px solid var(--blue) !important;
+    background: linear-gradient(145deg,#fff,#f8fbff) !important;
+  }
+
+  .feature-card {
+    background: linear-gradient(145deg,#f8fbff,#eef6ff) !important;
+  }
+
+  .btn, .btn-success, .btn-danger {
+    border-radius: 11px !important;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(15,23,42,.10);
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  }
+
+  .btn:hover, .btn-success:hover, .btn-danger:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+    box-shadow: 0 12px 25px rgba(15,23,42,.15);
+  }
+
+  input, textarea, select {
+    padding: .8rem .9rem !important;
+    border-radius: 10px !important;
+    border: 1px solid #d7dee9 !important;
+    background: #fbfdff;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: rgba(37,99,235,.55) !important;
+    box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+  }
+
+  .modal {
+    background: rgba(2,8,23,.72) !important;
+    backdrop-filter: blur(7px);
+  }
+
+  .modal-content, .gallery-modal-content {
+    border: 1px solid rgba(148,163,184,.25);
+    border-radius: 22px !important;
+    box-shadow: 0 30px 90px rgba(0,0,0,.28) !important;
+  }
+
+  .gallery-item {
+    border-radius: 15px !important;
+    box-shadow: 0 10px 28px rgba(15,23,42,.12) !important;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 38px rgba(15,23,42,.18) !important;
+  }
+
+  #teachers-grid > div {
+    border-radius: 17px !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 10px 30px rgba(15,23,42,.07);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  #teachers-grid > div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 38px rgba(15,23,42,.13);
+  }
+
+  img.teacher-img {
+    width: 112px !important;
+    height: 112px !important;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 22px rgba(15,23,42,.14);
+  }
+
+  footer {
+    margin-top: 3rem !important;
+    padding: 2.2rem 1rem !important;
+    background: #040d20 !important;
+    border-top: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  .copyright-bar {
+    padding: 15px 28px !important;
+    background: #020817 !important;
+    border-top: 1px solid rgba(255,255,255,.08) !important;
+    font-size: .82rem !important;
+  }
+
+  @media (max-width: 700px) {
+    header { padding: 3.2rem 1rem 2.8rem !important; }
+    .container { margin: 1.4rem auto !important; }
+    .card { padding: 1.35rem !important; border-radius: 17px !important; }
+    nav a { font-size: .82rem; padding: .45rem .6rem; }
+    #school-branch { font-size: .78rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
 </head>
 <body>
 
@@ -259,7 +535,24 @@
     <p id="school-branch">Tarajan, Jorhat Campus</p>
   </header>
 
-  <nav>
+  
+<div class="professional-strip" aria-label="School announcement">
+  <div><span class="status-dot"></span><strong>Admissions Open</strong><span class="strip-separator">•</span> Higher Secondary 1st Year — Science, Arts & Commerce</div>
+  <a href="#admissions">Explore Admissions →</a>
+</div>
+<style>
+.professional-strip{
+  display:flex;justify-content:center;align-items:center;gap:1rem;flex-wrap:wrap;
+  padding:.7rem 1rem;background:#fff;border-bottom:1px solid #e2e8f0;
+  color:#334155;font-size:.88rem;
+}
+.professional-strip a{color:#1d4ed8;text-decoration:none;font-weight:800}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:7px;box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+.strip-separator{margin:0 .45rem;color:#94a3b8}
+@media(max-width:600px){.professional-strip{text-align:center;font-size:.8rem}}
+</style>
+
+<nav>
     <a href="#about">About Us</a>
     <a href="#streams">Academic Streams</a>
     <a href="#admissions">Admissions</a>
@@ -885,7 +1178,7 @@
     // IMPORTANT: Do NOT place a real GitHub token directly in public code.
     const GITHUB_USER = "mranshurx";
     const GITHUB_REPO = "canvas-v2";
-    const GITHUB_TOKEN = "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"; // Add your trial token locally if you accept the security risk.
+    const GITHUB_TOKEN = ""; // Add your trial token locally if you accept the security risk.
 
     async function saveToGitHub() {
       const user = GITHUB_USER;
