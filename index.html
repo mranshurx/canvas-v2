@@ -1,4 +1,1362 @@
-website under maintainance ...........it will be back soon........
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO & Google Search Meta Tags -->
+  <title id="doc-title">CANVAS SENIOR SECONDARY SCHOOL, Jorhat | Admissions Open</title>
+  <meta name="description" content="Welcome to Canvas Senior Secondary School in Tarajan, Jorhat. Offering top-tier Arts, Science, and Commerce education with expert faculty and modern infrastructure.">
+  <meta name="keywords" content="Canvas Senior Secondary School Jorhat, Canvas School Tarajan, best college in Jorhat, Science Arts Commerce admission Assam">
+  <meta name="robots" content="index, follow">
 
-      i am a noob developer.........
+  <style>
+    :root{
+      --primary:#123b7a;
+      --primary-2:#1d5bbf;
+      --accent:#f4c542;
+      --ink:#172033;
+      --muted:#64748b;
+      --surface:#ffffff;
+      --soft:#f4f7fb;
+      --line:#e5eaf2;
+      --success:#159957;
+      --danger:#d64545;
+      --shadow:0 12px 35px rgba(18,59,122,.09);
+      --shadow-sm:0 5px 18px rgba(15,23,42,.07);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:"Segoe UI",Inter,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%,rgba(29,91,191,.06),transparent 30%),
+        linear-gradient(180deg,#f8fbff 0%,#f4f7fb 100%);
+      color:var(--ink);
+      line-height:1.65;
+      min-height:100vh;
+    }
+    button,input,textarea,select{font:inherit}
+
+    header{
+      position:relative;
+      overflow:hidden;
+      color:#fff;
+      padding:42px 20px 50px;
+      text-align:center;
+      background:
+        linear-gradient(135deg,rgba(8,32,73,.98),rgba(18,59,122,.94) 55%,rgba(29,91,191,.92)),
+        radial-gradient(circle at 80% 20%,rgba(244,197,66,.2),transparent 28%);
+    }
+    header:before{
+      content:"";
+      position:absolute;inset:auto -10% -70px;
+      height:150px;
+      background:#f8fbff;
+      border-radius:50% 50% 0 0/100% 100% 0 0;
+      opacity:.13;
+    }
+    .header-content{
+      position:relative;z-index:1;
+      display:flex;align-items:center;justify-content:center;
+      gap:22px;flex-wrap:wrap;margin-bottom:10px;
+    }
+    .header-content h1{
+      color:#fff;
+      font-size:clamp(1.8rem,4vw,3.05rem);
+      letter-spacing:-.7px;
+      line-height:1.15;
+      font-weight:800;
+      text-shadow:0 2px 15px rgba(0,0,0,.18);
+    }
+    .header-content h1 span{color:var(--accent)}
+    .header-content h1:after{
+      content:"";
+      display:block;width:64px;height:4px;
+      background:var(--accent);border-radius:99px;
+      margin:13px auto 0;
+    }
+    .logo-wrapper{
+      width:126px;height:126px;border-radius:50%;
+      border:4px solid rgba(255,255,255,.9);
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      overflow:hidden;background:#07152d;flex-shrink:0;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;user-select:none;
+      transition:transform .25s ease,box-shadow .25s ease;
+    }
+    .logo-wrapper:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 15px 35px rgba(0,0,0,.3)}
+    .school-logo{width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+    #school-branch{
+      position:relative;z-index:1;
+      color:rgba(255,255,255,.84);font-size:1.05rem;
+      letter-spacing:.5px
+    }
+
+    nav{
+      background:rgba(8,22,46,.96);
+      backdrop-filter:blur(14px);
+      padding:13px 12px;
+      text-align:center;
+      position:sticky;top:0;z-index:100;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      box-shadow:0 5px 20px rgba(0,0,0,.12);
+    }
+    nav a{
+      display:inline-block;color:#eaf1ff;text-decoration:none;
+      margin:3px 4px;padding:9px 13px;border-radius:9px;
+      font-weight:650;font-size:.93rem;cursor:pointer;
+      transition:all .2s ease;
+    }
+    nav a:hover{color:#fff;background:rgba(255,255,255,.09);transform:translateY(-1px)}
+
+    .container{max-width:1180px;margin:38px auto;padding:0 18px}
+    .card{
+      background:rgba(255,255,255,.96);
+      padding:clamp(1.35rem,3vw,2.2rem);
+      margin-bottom:22px;border:1px solid rgba(226,232,240,.9);
+      border-radius:var(--radius);box-shadow:var(--shadow);
+      scroll-margin-top:90px;
+    }
+    .card h2{
+      color:var(--primary)!important;
+      font-size:clamp(1.35rem,2.5vw,1.75rem);
+      letter-spacing:-.3px;
+    }
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+    .stream-card,.feature-card{
+      position:relative;overflow:hidden;
+      padding:1.35rem;border-radius:14px;
+      transition:transform .22s ease,box-shadow .22s ease;
+    }
+    .stream-card{
+      background:linear-gradient(145deg,#f8fbff,#eef5ff);
+      border:1px solid #dbe8fa;border-left:5px solid var(--primary-2);
+    }
+    .feature-card{
+      background:#fff;border:1px solid var(--line);
+      box-shadow:var(--shadow-sm);
+    }
+    .stream-card:hover,.feature-card:hover{
+      transform:translateY(-4px);box-shadow:0 12px 28px rgba(18,59,122,.12)
+    }
+    .stream-card h3,.feature-card h4{color:var(--primary-2)!important}
+    .btn,.btn-success,.btn-danger{
+      border:0;cursor:pointer;font-weight:700;
+      border-radius:10px;transition:all .2s ease;
+      box-shadow:0 5px 12px rgba(15,23,42,.1);
+    }
+    .btn{
+      background:var(--primary-2);color:#fff;
+      padding:.65rem 1.05rem
+    }
+    .btn:hover{background:var(--primary);transform:translateY(-1px)}
+    .btn-success{
+      background:var(--success);color:#fff;
+      padding:.8rem 1.35rem;font-size:1rem
+    }
+    .btn-success:hover{background:#117d47;transform:translateY(-1px)}
+    .btn-danger{background:var(--danger);color:#fff;padding:.55rem 1rem}
+    .btn-danger:hover{background:#b93636;transform:translateY(-1px)}
+
+    .modal{
+      display:none;position:fixed;inset:0;width:100%;height:100%;
+      background:rgba(3,12,28,.72);backdrop-filter:blur(6px);
+      justify-content:center;align-items:center;z-index:1000;
+      padding:18px;
+    }
+    .modal-content,.gallery-modal-content{
+      background:#fff;border:1px solid rgba(255,255,255,.7);
+      box-shadow:0 25px 70px rgba(0,0,0,.25);
+      border-radius:20px;width:90%;max-width:700px;
+      padding:clamp(1.3rem,3vw,2rem);
+      animation:modalIn .22s ease-out
+    }
+    @keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+    .gallery-modal-content{max-width:1000px;max-height:85vh;overflow-y:auto}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:18px}
+    .gallery-item{
+      overflow:hidden;border-radius:14px;box-shadow:var(--shadow-sm);
+      background:#f1f5f9;aspect-ratio:4/3;border:1px solid var(--line)
+    }
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+    .gallery-item img:hover{transform:scale(1.06)}
+
+    input,textarea,select{
+      width:100%;padding:.72rem .85rem;margin:.4rem 0 1rem;
+      border:1px solid #d6deea;border-radius:10px;
+      background:#fbfdff;color:var(--ink);outline:none;
+      transition:border-color .2s,box-shadow .2s
+    }
+    input:focus,textarea:focus,select:focus{
+      border-color:#4d86d9;box-shadow:0 0 0 3px rgba(29,91,191,.1)
+    }
+    textarea{resize:vertical;min-height:100px}
+    label{font-weight:650;color:#334155}
+    img.hero-img{
+      width:100%;max-height:410px;object-fit:cover;
+      border-radius:15px;margin-bottom:1.25rem;background:#e2e8f0;
+      box-shadow:0 10px 28px rgba(15,23,42,.1)
+    }
+    img.teacher-img{
+      width:108px;height:108px;border-radius:50%;object-fit:cover;
+      margin-bottom:.75rem;background:#cbd5e1;
+      border:4px solid #edf4ff;box-shadow:0 5px 16px rgba(15,23,42,.1)
+    }
+    .teacher-item,.gallery-manage-item{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:12px;background:#f7f9fc;padding:.75rem .9rem;
+      margin-top:.55rem;border-radius:10px;border:1px solid var(--line)
+    }
+    #teachers-grid>div{
+      border:1px solid var(--line)!important;
+      padding:1.35rem!important;border-radius:15px!important;
+      box-shadow:var(--shadow-sm);transition:transform .2s,box-shadow .2s
+    }
+    #teachers-grid>div:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+
+    .visitor-table-container{max-height:200px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;margin-bottom:1rem}
+    table.visitor-table{width:100%;border-collapse:collapse;font-size:.85rem;text-align:left}
+    table.visitor-table th{background:#172a4d;color:#fff;padding:.65rem;position:sticky;top:0}
+    table.visitor-table td{padding:.6rem;border-bottom:1px solid var(--line)}
+    table.visitor-table tr:nth-child(even){background:#f8fafc}
+
+    footer{
+      background:#08162e;color:#94a3b8;text-align:center;
+      padding:28px 16px;font-size:.9rem;
+      border-top:1px solid #1d2d49;margin-top:45px
+    }
+    footer strong{color:var(--accent);letter-spacing:1px}
+
+    @media(max-width:700px){
+      header{padding:30px 15px 42px}
+      .header-content{gap:14px}
+      .logo-wrapper{width:100px;height:100px}
+      nav{padding:8px}
+      nav a{font-size:.82rem;padding:7px 9px;margin:2px}
+      .container{margin:22px auto;padding:0 12px}
+      .card{border-radius:15px;padding:1.15rem;margin-bottom:15px}
+      .grid{grid-template-columns:1fr}
+      .modal{padding:10px}
+      .modal-content,.gallery-modal-content{width:100%;border-radius:15px}
+    }
+  </style>
+
+<style id="premium-school-theme">
+  :root {
+    --navy: #07152f;
+    --navy-2: #0b1f42;
+    --blue: #2563eb;
+    --blue-2: #38bdf8;
+    --gold: #f5c451;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --surface: rgba(255,255,255,.92);
+    --line: rgba(148,163,184,.22);
+    --shadow: 0 20px 55px rgba(7,21,47,.10);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(56,189,248,.10), transparent 28rem),
+      radial-gradient(circle at 90% 8%, rgba(245,196,81,.10), transparent 25rem),
+      #f6f8fc !important;
+    color: var(--ink) !important;
+  }
+
+  header {
+    position: relative;
+    overflow: hidden;
+    padding: 4.5rem 1rem 3.8rem !important;
+    background:
+      linear-gradient(135deg, rgba(7,21,47,.98), rgba(11,31,66,.94)),
+      #07152f !important;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 16px 45px rgba(7,21,47,.18);
+  }
+
+  header::before,
+  header::after {
+    content: "";
+    position: absolute;
+    border-radius: 999px;
+    pointer-events: none;
+  }
+
+  header::before {
+    width: 420px; height: 420px;
+    right: -160px; top: -250px;
+    background: rgba(56,189,248,.12);
+    filter: blur(2px);
+  }
+
+  header::after {
+    width: 300px; height: 300px;
+    left: -170px; bottom: -210px;
+    background: rgba(245,196,81,.10);
+  }
+
+  .header-content {
+    position: relative;
+    z-index: 1;
+    gap: 2rem !important;
+  }
+
+  .logo-wrapper {
+    width: 138px !important;
+    height: 138px !important;
+    border: 4px solid rgba(255,255,255,.95) !important;
+    box-shadow: 0 0 0 8px rgba(255,255,255,.06), 0 20px 45px rgba(0,0,0,.30) !important;
+  }
+
+  .header-content h1 {
+    max-width: 850px;
+    font-size: clamp(2rem, 5vw, 4rem) !important;
+    line-height: 1.04;
+    letter-spacing: -.035em;
+    text-shadow: 0 5px 30px rgba(0,0,0,.22);
+  }
+
+  #school-branch {
+    position: relative;
+    z-index: 1;
+    color: rgba(255,255,255,.78) !important;
+    font-size: 1.05rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  nav {
+    background: rgba(4,15,35,.90) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 10px 30px rgba(7,21,47,.16);
+    padding: .85rem 1rem !important;
+  }
+
+  nav a {
+    display: inline-block;
+    padding: .55rem .8rem;
+    margin: 3px 2px !important;
+    border-radius: 999px;
+    color: rgba(255,255,255,.82) !important;
+    font-size: .9rem;
+    transition: .25s ease;
+  }
+
+  nav a:hover {
+    color: white !important;
+    background: rgba(56,189,248,.13);
+    transform: translateY(-1px);
+  }
+
+  .container {
+    max-width: 1180px !important;
+    margin: 3rem auto !important;
+  }
+
+  .card {
+    position: relative;
+    overflow: hidden;
+    padding: 2.2rem !important;
+    margin-bottom: 1.8rem !important;
+    border: 1px solid var(--line);
+    border-radius: 22px !important;
+    background: var(--surface) !important;
+    box-shadow: var(--shadow) !important;
+    backdrop-filter: blur(12px);
+  }
+
+  .card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-2), var(--gold));
+    opacity: .85;
+  }
+
+  .card h2 {
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    letter-spacing: -.025em;
+  }
+
+  img.hero-img {
+    max-height: 430px !important;
+    border-radius: 17px !important;
+    box-shadow: 0 16px 40px rgba(15,23,42,.13);
+  }
+
+  .grid {
+    gap: 1.25rem !important;
+  }
+
+  .stream-card,
+  .feature-card {
+    position: relative;
+    border-radius: 17px !important;
+    border: 1px solid var(--line) !important;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .stream-card:hover,
+  .feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 35px rgba(15,23,42,.10);
+    border-color: rgba(37,99,235,.30) !important;
+  }
+
+  .stream-card {
+    border-left: 4px solid var(--blue) !important;
+    background: linear-gradient(145deg,#fff,#f8fbff) !important;
+  }
+
+  .feature-card {
+    background: linear-gradient(145deg,#f8fbff,#eef6ff) !important;
+  }
+
+  .btn, .btn-success, .btn-danger {
+    border-radius: 11px !important;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(15,23,42,.10);
+    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+  }
+
+  .btn:hover, .btn-success:hover, .btn-danger:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+    box-shadow: 0 12px 25px rgba(15,23,42,.15);
+  }
+
+  input, textarea, select {
+    padding: .8rem .9rem !important;
+    border-radius: 10px !important;
+    border: 1px solid #d7dee9 !important;
+    background: #fbfdff;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: rgba(37,99,235,.55) !important;
+    box-shadow: 0 0 0 4px rgba(37,99,235,.10);
+  }
+
+  .modal {
+    background: rgba(2,8,23,.72) !important;
+    backdrop-filter: blur(7px);
+  }
+
+  .modal-content, .gallery-modal-content {
+    border: 1px solid rgba(148,163,184,.25);
+    border-radius: 22px !important;
+    box-shadow: 0 30px 90px rgba(0,0,0,.28) !important;
+  }
+
+  .gallery-item {
+    border-radius: 15px !important;
+    box-shadow: 0 10px 28px rgba(15,23,42,.12) !important;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 38px rgba(15,23,42,.18) !important;
+  }
+
+  #teachers-grid > div {
+    border-radius: 17px !important;
+    border: 1px solid var(--line) !important;
+    box-shadow: 0 10px 30px rgba(15,23,42,.07);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  #teachers-grid > div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 38px rgba(15,23,42,.13);
+  }
+
+  img.teacher-img {
+    width: 112px !important;
+    height: 112px !important;
+    border: 4px solid #fff;
+    box-shadow: 0 8px 22px rgba(15,23,42,.14);
+  }
+
+  footer {
+    margin-top: 3rem !important;
+    padding: 2.2rem 1rem !important;
+    background: #040d20 !important;
+    border-top: 1px solid rgba(255,255,255,.08) !important;
+  }
+
+  .copyright-bar {
+    padding: 15px 28px !important;
+    background: #020817 !important;
+    border-top: 1px solid rgba(255,255,255,.08) !important;
+    font-size: .82rem !important;
+  }
+
+  @media (max-width: 700px) {
+    header { padding: 3.2rem 1rem 2.8rem !important; }
+    .container { margin: 1.4rem auto !important; }
+    .card { padding: 1.35rem !important; border-radius: 17px !important; }
+    nav a { font-size: .82rem; padding: .45rem .6rem; }
+    #school-branch { font-size: .78rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      scroll-behavior: auto !important;
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+</style>
+
+<style>
+
+/* Professional header background video */
+header {
+  position: relative !important;
+  overflow: hidden !important;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.header-video-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(135deg, rgba(3, 12, 30, 0.82), rgba(7, 21, 47, 0.55)),
+    linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.38));
+}
+
+header .header-content,
+header #school-branch {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+@media (max-width: 700px) {
+  header {
+    min-height: 380px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+  <header>
+  <video class="header-bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+    <source src="canvas-vid.mp4" type="video/mp4">
+  </video>
+  <div class="header-video-overlay" aria-hidden="true"></div>
+
+    <div class="header-content">
+      <div class="logo-wrapper" id="logo-trigger">
+        <img id="school-logo" class="school-logo" src="logo.jpg" alt="Canvas School Logo" onerror="this.src='https://via.placeholder.com/125?text=LOGO'">
+      </div>
+      <h1>
+        CANVAS <span id="school-name-suffix">SENIOR SECONDARY SCHOOL, Jorhat</span>
+      </h1>
+    </div>
+    <p id="school-branch">Tarajan, Jorhat Campus</p>
+  </header>
+
+  
+<div class="professional-strip" aria-label="School announcement">
+  <div><span class="status-dot"></span><strong>Admissions Open</strong><span class="strip-separator">•</span> Higher Secondary 1st Year — Science, Arts & Commerce</div>
+  <a href="#admissions">Explore Admissions →</a>
+</div>
+<style>
+.professional-strip{
+  display:flex;justify-content:center;align-items:center;gap:1rem;flex-wrap:wrap;
+  padding:.7rem 1rem;background:#fff;border-bottom:1px solid #e2e8f0;
+  color:#334155;font-size:.88rem;
+}
+.professional-strip a{color:#1d4ed8;text-decoration:none;font-weight:800}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:7px;box-shadow:0 0 0 4px rgba(34,197,94,.12)}
+.strip-separator{margin:0 .45rem;color:#94a3b8}
+@media(max-width:600px){.professional-strip{text-align:center;font-size:.8rem}}
+</style>
+
+<nav>
+    <a href="#about">About Us</a>
+    <a href="#streams">Academic Streams</a>
+    <a href="#admissions">Admissions</a>
+    <a href="#why-choose">Why Choose Us</a>
+    <a href="#teachers">Faculty & Staff</a>
+    <a href="#contact">Contact</a>
+    <a onclick="openGalleryModal()">Gallery</a>
+    <a onclick="openStudyResourcesModal()">Study Resources</a>
+  </nav>
+
+  <div class="container">
+    <!-- About Section -->
+    <div class="card" id="about">
+      <img id="school-picture" class="hero-img" src="college.png" alt="Canvas Senior Secondary School Building">
+      <h2 style="color: #1e3a8a; margin-bottom: 0.8rem;">Welcome to Canvas Senior Secondary School</h2>
+      <p id="school-description" style="white-space: pre-line; font-size: 1.05rem; color: #334155; line-height: 1.8;">
+        Located in Tarajan, Jorhat, Canvas Senior Secondary School is dedicated to nurturing academic excellence, fostering critical thinking, and shaping well-rounded leaders of tomorrow. Situated in the cultural heartland of Assam, Canvas Senior Secondary School provides a supportive, modern, and engaging educational environment where every student is empowered to discover their potential and achieve their dreams.
+      </p>
+      <p id="school-address" style="margin-top: 1rem; font-weight: bold; color: #475569;">Address: Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
+    </div>
+
+    <!-- Academic Streams -->
+    <div class="card" id="streams">
+      <h2 style="color: #1e3a8a; margin-bottom: 0.5rem;">Academic Streams Offered</h2>
+      <p style="margin-bottom: 1.5rem; color: #475569;">We offer comprehensive Higher Secondary programs across Science, Arts, and Commerce, designed to build a strong foundation for higher education and competitive examinations.</p>
+      
+      <div class="grid">
+        <div class="stream-card">
+          <h3 style="color: #1d4ed8; margin-bottom: 0.4rem;">1. Science Stream</h3>
+          <p style="font-size: 0.95rem; margin-bottom: 0.8rem;">Our Science curriculum emphasizes conceptual clarity, practical application, and analytical thinking. Guided by experienced faculty, students are prepared for both board examinations and competitive entrance tests in engineering, medicine, research, and technology.</p>
+          <p><strong>Key Subjects:</strong> Physics, Chemistry, Mathematics, Biology, Computer Science/IP.</p>
+        </div>
+
+        <div class="stream-card">
+          <h3 style="color: #1d4ed8; margin-bottom: 0.4rem;">2. Commerce Stream</h3>
+          <p style="font-size: 0.95rem; margin-bottom: 0.8rem;">Designed for future entrepreneurs, managers, and financial experts, our Commerce program equips students with strong analytical skills in accounting, business dynamics, and economics.</p>
+          <p><strong>Key Subjects:</strong> Accountancy, Business Studies, Economics, Finance, Mathematics.</p>
+        </div>
+
+        <div class="stream-card">
+          <h3 style="color: #1d4ed8; margin-bottom: 0.4rem;">3. Arts (Humanities) Stream</h3>
+          <p style="font-size: 0.95rem; margin-bottom: 0.8rem;">Our Arts program encourages creative expression, critical analysis, and a deep understanding of human society and culture. It serves as an ideal launchpad for careers in civil services, law, journalism, literature, and social sciences.</p>
+          <p><strong>Key Subjects:</strong> Political Science, History, Economics, Sociology, Geography, Advanced Languages, Logic & Philosophy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admissions Section -->
+    <div class="card" id="admissions">
+      <h2 style="color: #1e3a8a; margin-bottom: 0.8rem;">Admissions Open</h2>
+      <p style="margin-bottom: 1rem; color: #475569;">
+        Admissions are currently open for Higher Secondary 1st Year (Arts, Science, and Commerce) for the upcoming academic session.
+      </p>
+
+      <h3 style="color: #1d4ed8; margin-top: 1rem; margin-bottom: 0.5rem;">Documents Required During Admission:</h3>
+      <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem; color: #334155; line-height: 1.8;">
+        <li>HSLC / Class 10 Admit Card & Marksheet (Self-attested copy)</li>
+        <li>Pass Certificate & Migration Certificate (if applicable)</li>
+        <li>Caste Certificate (if applicable)</li>
+        <li>Recent Passport Size Photographs (3 copies)</li>
+      </ul>
+
+      <button class="btn-success" onclick="openAdmissionModal()">
+        📝 Apply Online For Admission
+      </button>
+    </div>
+
+    <!-- Why Choose Us -->
+    <div class="card" id="why-choose">
+      <h2 style="color: #1e3a8a; margin-bottom: 1.2rem;">Why Choose Canvas Senior Secondary School?</h2>
+      <div class="grid">
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">👨‍🏫 Experienced & Caring Faculty</h4>
+          <p style="font-size: 0.95rem;">Dedicated educators committed to individual student attention and mentorship.</p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">🏫 Modern Infrastructure</h4>
+          <p style="font-size: 0.95rem;">Well-equipped classrooms, science and computer laboratories, and a rich library resource center.</p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">🎨 Holistic Development</h4>
+          <p style="font-size: 0.95rem;">A balanced focus on academic rigor, sports, cultural activities, and personal growth.</p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: #1e40af; margin-bottom: 0.3rem;">🚀 Career & Guidance Support</h4>
+          <p style="font-size: 0.95rem;">Continuous guidance for higher education choices and career planning.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Faculty & Staff Members -->
+    <div class="card" id="teachers">
+      <h2 style="color: #1e3a8a; margin-bottom: 1rem;">Our Faculty & Staff</h2>
+      <div id="teachers-grid" class="grid"></div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="card" id="contact">
+      <h2 style="color: #1e3a8a; margin-bottom: 0.8rem;">Contact Information</h2>
+      <p><strong>Address:</strong> Phukan-Ali, Tarajan, Jorhat, Assam, 785001</p>
+      <p><strong>Email:</strong> <span id="school-email">info@canvasschool.edu</span></p>
+      <p><strong>Phone:</strong> <span id="school-phone">+91 7896369932 / +91 8761906305</span></p>
+    </div>
+  </div>
+
+  <!-- ONLINE ADMISSION FORM MODAL -->
+  <div id="admissionModal" class="modal">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="color: #1e3a8a;">Online Admission Inquiry</h2>
+        <button class="btn btn-danger" style="padding: 0.2rem 0.6rem;" onclick="closeAdmissionModal()">✖</button>
+      </div>
+
+      <!-- Connected to Formspree Endpoint mnpajklk -->
+      <form action="https://formspree.io/f/mnpajklk" method="POST">
+        <label>Student's Full Name *</label>
+        <input type="text" name="Student Name" required placeholder="e.g. Rahul Sharma">
+
+        <label>Parent/Guardian Name *</label>
+        <input type="text" name="Parent Name" required placeholder="e.g. Suresh Sharma">
+
+        <label>Contact Phone Number *</label>
+        <input type="tel" name="Phone Number" required placeholder="e.g. +91 9876543210">
+
+        <label>Email Address</label>
+        <input type="email" name="Email Address" placeholder="e.g. student@gmail.com">
+
+        <label>Stream Applying For *</label>
+        <select name="Stream Applied">
+          <option value="Science">Science</option>
+          <option value="Arts">Arts</option>
+          <option value="Commerce">Commerce</option>
+        </select>
+
+        <label>Class 10 Board Exam Percentage / Grade *</label>
+        <input type="text" name="Class 10 Marks" required placeholder="e.g. 82.5% or Grade A">
+
+        <label>Previous School Name</label>
+        <input type="text" name="Previous School" placeholder="e.g. Government Higher Secondary School, Jorhat">
+
+        <button type="submit" class="btn-success" style="width: 100%; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+          📤 Submit Application
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- GALLERY MODAL WINDOW -->
+  <div id="galleryModal" class="modal">
+    <div class="gallery-modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="color: #1e3a8a;">Photo Gallery</h2>
+        <button class="btn btn-danger" onclick="closeGalleryModal()">Close Window ✖</button>
+      </div>
+      <p style="color: #64748b; font-size: 0.95rem;">Campus life, events, and memories at Canvas Senior Secondary School.</p>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </div>
+  </div>
+
+  <!-- STUDY RESOURCES MODAL -->
+  <div id="studyResourcesModal" class="modal">
+    <div class="modal-content" style="max-width: 500px; text-align: center;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="color: #1e3a8a;">Study Resources</h2>
+        <button class="btn btn-danger" style="padding: 0.2rem 0.6rem;" onclick="closeStudyResourcesModal()">✖</button>
+      </div>
+
+      <!-- Class Selection View -->
+      <div id="study-resource-selection">
+        <p style="margin-bottom: 1.5rem; color: #475569; font-weight: 500;">Select your class to access study materials, notes, and question papers:</p>
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+          <button class="btn-success" style="padding: 0.8rem 1.5rem; flex: 1;" onclick="selectClass('Class 11')">Class 11</button>
+          <button class="btn-success" style="padding: 0.8rem 1.5rem; flex: 1;" onclick="selectClass('Class 12')">Class 12</button>
+        </div>
+      </div>
+
+      <!-- Update Notice Message View -->
+      <div id="study-resource-message" style="display: none; padding: 0.5rem 0;">
+        <div style="background: #fef3c7; border: 1px solid #f59e0b; padding: 1.2rem; border-radius: 8px; margin-bottom: 1.2rem;">
+          <p style="color: #b45309; font-weight: bold; font-size: 1.05rem; margin: 0;">
+            ⚠️ Website is currently under update, this feature will be available soon!!
+          </p>
+        </div>
+        <button class="btn" onclick="openStudyResourcesModal()">← Back to Class Selection</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Superuser Admin Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <h2 id="panel-title" style="margin-bottom: 1rem;">Superuser Authentication</h2>
+      
+      <!-- Login View -->
+      <div id="login-form">
+        <label>Enter Superuser Password:</label>
+        <input type="password" id="admin-pass" placeholder="Password">
+        <button class="btn" onclick="authenticate()">Login</button>
+        <button class="btn btn-danger" onclick="closeAdminModal()">Close</button>
+      </div>
+
+      <!-- Dashboard View -->
+      <div id="dashboard" style="display: none; max-height: 75vh; overflow-y: auto; padding-right: 0.5rem;">
+        <p style="color: #16a34a; font-weight: bold; margin-bottom: 1rem;">Superuser Dashboard Active</p>
+
+        <!-- VISITOR LOG SECTION -->
+        <div style="background: #f0fdf4; border: 1px solid #86efac; padding: 1rem; border-radius: 6px; margin-bottom: 1.2rem;">
+          <h3 style="color: #166534; margin-bottom: 0.5rem;">📍 Real-time Site Visitor Log</h3>
+          <p style="font-size: 0.85rem; color: #15803d; margin-bottom: 0.8rem;">
+            Total Visits Captured: <strong id="visitor-count">0</strong>
+          </p>
+          <div class="visitor-table-container">
+            <table class="visitor-table">
+              <thead>
+                <tr>
+                  <th>Time (IST)</th>
+                  <th>IP Address</th>
+                  <th>Location</th>
+                  <th>Device / Browser</th>
+                </tr>
+              </thead>
+              <tbody id="visitor-log-rows">
+                <tr><td colspan="4" style="text-align: center; color: #64748b;">Loading visitors...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="btn btn-danger" style="font-size: 0.8rem; padding: 0.3rem 0.6rem;" onclick="clearVisitorLogs()">Clear Visitor History</button>
+        </div>
+<label>School/College Name</label>
+        <input type="text" id="edit-name">
+
+        <label>Branch</label>
+        <input type="text" id="edit-branch">
+
+        <label>School Description (About Section)</label>
+        <textarea id="edit-description"></textarea>
+
+        <label>Address</label>
+        <input type="text" id="edit-address">
+
+        <label>School Logo (URL or GitHub filename e.g. logo.jpg)</label>
+        <input type="text" id="edit-logo">
+
+        <label>Banner Picture (URL or GitHub filename e.g. college.png)</label>
+        <input type="text" id="edit-picture">
+
+        <label>Email Address</label>
+        <input type="email" id="edit-email">
+
+        <label>Phone Number</label>
+        <input type="text" id="edit-phone">
+
+        <hr style="margin: 1.5rem 0;">
+
+        <!-- Manage Gallery Section -->
+        <h3 style="margin-bottom: 0.5rem;">Manage Photo Gallery</h3>
+        <div id="admin-gallery-list"></div>
+        <div style="margin-top: 0.8rem;">
+          <label>Add New Photo Path (e.g. <code>12.png</code> or external URL)</label>
+          <input type="text" id="new-gallery-img" placeholder="12.png">
+          <button class="btn" onclick="addGalleryImage()">Add To Gallery</button>
+        </div>
+
+        <hr style="margin: 1.5rem 0;">
+
+        <!-- Manage Existing Faculty & Staff -->
+        <h3 style="margin-bottom: 0.5rem;">Current Faculty & Staff Members</h3>
+        <div id="admin-teachers-list"></div>
+
+        <hr style="margin: 1.5rem 0;">
+
+        <!-- Add New Faculty / Staff -->
+        <h3 style="margin-bottom: 0.5rem;">Add New Member</h3>
+        <label>Member Name</label>
+        <input type="text" id="new-teacher-name" placeholder="e.g. Mr. Sharma">
+        
+        <label>Subject / Role</label>
+        <input type="text" id="new-teacher-sub" placeholder="e.g. Physics / Office Incharge">
+        
+        <label>Photo (URL or GitHub filename e.g. rituraj.png)</label>
+        <input type="text" id="new-teacher-img" placeholder="Photo filename or URL">
+        
+        <button class="btn" style="margin-bottom: 1.5rem;" onclick="addTeacher()">Add Member</button>
+
+        <hr style="margin: 1rem 0;">
+
+        <button class="btn" id="save-btn" style="width: 100%; margin-bottom: 0.5rem;" onclick="saveToGitHub()">Save All Changes to GitHub</button>
+        <button class="btn btn-danger" style="width: 100%;" onclick="logout()">Logout & Exit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>WEBSITE DESIGNED AND DEVELOPED BY <strong>TEAM 3IDIOTS</strong></p>
+  </footer>
+
+  <script>
+    // Global Default Data Block
+    const defaultData = {
+      name: "CANVAS SENIOR SECONDARY SCHOOL, Jorhat",
+      branch: "Tarajan, Jorhat Campus",
+      logo: "logo.jpg",
+      description: "Located in Tarajan, Jorhat, Canvas Senior Secondary School is dedicated to nurturing academic excellence, fostering critical thinking, and shaping well-rounded leaders of tomorrow. Situated in the cultural heartland of Assam, Canvas Senior Secondary School provides a supportive, modern, and engaging educational environment where every student is empowered to discover their potential and achieve their dreams.",
+      address: "Phukan-Ali, Tarajan, Jorhat, Assam, 785001",
+      picture: "college.png",
+      email: "info@canvasschool.edu",
+      phone: "+91 7896369932 / +91 8761906305",
+      gallery: [
+        "12.png"
+      ],
+      teachers: [
+        { name: "CHINMOYEE MAHANTA", subject: "PRINCIPAL", photo: "chin.jpg" },
+        { name: "RAJIB LOCHAN SAIKIA", subject: "CHEMISTRY", photo: "image.png" },
+        { name: "RITURAJ KALITA", subject: "PHYSICS", photo: "rituraj.png" },
+        { name: "SANJIB BASFOR", subject: "MATHEMATICS", photo: "sanjib.jpg" },
+        { name: "DIBYAJYOTI BORA", subject: "ENGLISH", photo: "dibya.jpg" },
+        { name: "KONGONA SAIKIA", subject: "ENGLISH", photo: "kongona.jpg" },
+        { name: "DIKSHITA PARASAR", subject: "POLITICAL SCIENCE", photo: "dikshita.jpg" },
+        { name: "DIPANJALI SAIKIA", subject: "ASSAMESE", photo: "dipanjali.jpg" },
+        { name: "PRIYANKA SARMAH", subject: "BIOLOGY", photo: "priyanka.jpg" },
+        { name: "MALOBIKA BORA", subject: "EDUCATION", photo: "malobika.jpg" },
+        { name: "MAMPI BORDOLOI DUTTA", subject: "EDUCATION AND BIHU", photo: "mampi.jpg" },
+        { name: "SUSMITA KUMARI", subject: "BIOLOGY", photo: "susmrita.jpg" },
+        { name: "KARISHMITA DAS", subject: "SOCIOLOGY", photo: "karishmita.jpg" },
+        { name: "SANJUKTA BHARADWAJ", subject: "GEOGRAPHY", photo: "sanjukta.jpg" },
+        { name: "BOROSHA RANI BORKOTOKY", subject: "OFFICE INCHARGE", photo: "borosha.jpg" }
+      ],
+      visitors: []
+    };
+
+    let currentData = defaultData;
+
+    // Secret Admin Trigger Attached to Logo
+    let lastTap = 0;
+    const logoTrigger = document.getElementById('logo-trigger');
+
+    function handleDoubleTapTrigger(e) {
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 400 && tapLength > 0) {
+        openAdminModal();
+        e.preventDefault();
+      }
+      lastTap = currentTime;
+    }
+
+    logoTrigger.addEventListener('dblclick', openAdminModal);
+    logoTrigger.addEventListener('touchend', handleDoubleTapTrigger);
+
+    function cleanUrl(url) {
+      if (!url) return '';
+      return url.trim().replace(/^["']|["']$/g, '');
+    }
+
+    // Modal Control Functions
+    function openAdmissionModal() {
+      document.getElementById('admissionModal').style.display = 'flex';
+    }
+
+    function closeAdmissionModal() {
+      document.getElementById('admissionModal').style.display = 'none';
+    }
+
+    function openGalleryModal() {
+      renderGallery();
+      document.getElementById('galleryModal').style.display = 'flex';
+    }
+
+    function closeGalleryModal() {
+      document.getElementById('galleryModal').style.display = 'none';
+    }
+
+    // Study Resources Modal Controls
+    function openStudyResourcesModal() {
+      document.getElementById('study-resource-selection').style.display = 'block';
+      document.getElementById('study-resource-message').style.display = 'none';
+      document.getElementById('studyResourcesModal').style.display = 'flex';
+    }
+
+    function closeStudyResourcesModal() {
+      document.getElementById('studyResourcesModal').style.display = 'none';
+    }
+
+    function selectClass(className) {
+      document.getElementById('study-resource-selection').style.display = 'none';
+      document.getElementById('study-resource-message').style.display = 'block';
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('gallery-grid');
+      const images = currentData.gallery || [];
+      
+      if (images.length === 0) {
+        grid.innerHTML = `<p style="color: #64748b; grid-column: 1/-1;">No photos added to gallery yet.</p>`;
+        return;
+      }
+
+      grid.innerHTML = images.map(img => `
+        <div class="gallery-item">
+          <img src="${cleanUrl(img)}" alt="Gallery Image" onerror="this.src='https://via.placeholder.com/300x220?text=Photo+Not+Found'">
+        </div>
+      `).join('');
+    }
+
+    // Capture Visitor Details on Page Load
+    async function trackVisitor() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        if (res.ok) {
+          const data = await res.json();
+          const visitorEntry = {
+            ip: data.ip || 'Unknown IP',
+            city: `${data.city || ''}, ${data.region || ''}, ${data.country_name || ''}`.replace(/^, |, $/g, ''),
+            time: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+            userAgent: navigator.userAgent.includes("Mobile") ? "Mobile Device" : "Desktop Browser"
+          };
+
+          if (!currentData.visitors) currentData.visitors = [];
+          
+          const lastVisit = currentData.visitors[0];
+          if (!lastVisit || lastVisit.ip !== visitorEntry.ip) {
+            currentData.visitors.unshift(visitorEntry);
+            if (currentData.visitors.length > 100) currentData.visitors.pop();
+            localStorage.setItem('cached_visitors', JSON.stringify(currentData.visitors));
+          }
+        }
+      } catch (err) {
+        console.warn("Visitor IP tracking skipped:", err);
+      }
+    }
+
+    function renderVisitorLogs() {
+      const logs = currentData.visitors || [];
+      document.getElementById('visitor-count').innerText = logs.length;
+      
+      const rowsContainer = document.getElementById('visitor-log-rows');
+      if (logs.length === 0) {
+        rowsContainer.innerHTML = `<tr><td colspan="4" style="text-align: center; color: #64748b;">No visitors logged yet.</td></tr>`;
+        return;
+      }
+
+      rowsContainer.innerHTML = logs.map(v => `
+        <tr>
+          <td>${v.time}</td>
+          <td><strong>${v.ip}</strong></td>
+          <td>${v.city || 'Unknown'}</td>
+          <td>${v.userAgent}</td>
+        </tr>
+      `).join('');
+    }
+
+    function clearVisitorLogs() {
+      if (confirm("Are you sure you want to clear all visitor history logs?")) {
+        currentData.visitors = [];
+        renderVisitorLogs();
+      }
+    }
+
+    function loadData() {
+      const cachedVisitors = localStorage.getItem('cached_visitors');
+      if (cachedVisitors) {
+        try { currentData.visitors = JSON.parse(cachedVisitors); } catch(e){}
+      }
+
+      renderUI();
+      trackVisitor();
+    }
+
+    function renderUI() {
+      document.getElementById('doc-title').innerText = currentData.name + " | Admissions Open";
+      
+      const logoImg = document.getElementById('school-logo');
+      if (currentData.logo) {
+        logoImg.src = cleanUrl(currentData.logo);
+      }
+
+      const fullTitle = currentData.name || '';
+      if (fullTitle.startsWith("CANVAS")) {
+        document.getElementById('school-name-suffix').innerText = fullTitle.substring(6);
+      } else {
+        document.getElementById('school-name-suffix').innerText = "";
+      }
+
+      document.getElementById('school-branch').innerText = currentData.branch || '';
+      document.getElementById('school-description').innerText = currentData.description || '';
+      document.getElementById('school-address').innerText = currentData.address ? "Address: " + currentData.address : '';
+      
+      const bannerImg = document.getElementById('school-picture');
+      bannerImg.src = cleanUrl(currentData.picture);
+      bannerImg.onerror = function() {
+        this.src = "https://images.unsplash.com/photo-1562774053-701939374585?w=1000";
+      };
+
+      document.getElementById('school-email').innerText = currentData.email || '';
+      document.getElementById('school-phone').innerText = currentData.phone || '';
+
+      const teachersGrid = document.getElementById('teachers-grid');
+      if (Array.isArray(currentData.teachers) && currentData.teachers.length > 0) {
+        teachersGrid.innerHTML = currentData.teachers.map(t => `
+          <div style="text-align: center; border: 1px solid #e2e8f0; padding: 1.2rem; border-radius: 8px; background: white;">
+            <img src="${cleanUrl(t.photo)}" class="teacher-img" alt="${t.name}" onerror="this.src='https://via.placeholder.com/150'">
+            <h4 style="color: #1e293b;">${t.name}</h4>
+            <p style="color: #2563eb; font-weight: 600; font-size: 0.9rem;">${t.subject}</p>
+          </div>
+        `).join('');
+      } else {
+        teachersGrid.innerHTML = `<p style="color: #64748b;">No members listed yet.</p>`;
+      }
+    }
+
+    function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+    function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
+
+    function authenticate() {
+      const pass = document.getElementById('admin-pass').value;
+      if (pass === 'canvas123') {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('panel-title').innerText = "Superuser Control Dashboard";
+        populateForm();
+        renderVisitorLogs();
+      } else {
+        alert("Incorrect Superuser Password!");
+      }
+    }
+
+    function logout() {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('admin-pass').value = '';
+      document.getElementById('panel-title').innerText = "Superuser Authentication";
+      closeAdminModal();
+    }
+
+    function populateForm() {
+      document.getElementById('edit-name').value = currentData.name || '';
+      document.getElementById('edit-branch').value = currentData.branch || '';
+      document.getElementById('edit-description').value = currentData.description || '';
+      document.getElementById('edit-address').value = currentData.address || '';
+      document.getElementById('edit-logo').value = currentData.logo || '';
+      document.getElementById('edit-picture').value = currentData.picture || '';
+      document.getElementById('edit-email').value = currentData.email || '';
+      document.getElementById('edit-phone').value = currentData.phone || '';
+
+      renderAdminGallery();
+      renderAdminTeachers();
+    }
+
+    function renderAdminGallery() {
+      const container = document.getElementById('admin-gallery-list');
+      if (!currentData.gallery || currentData.gallery.length === 0) {
+        container.innerHTML = "<p style='color: #64748b; font-size: 0.9rem;'>No gallery images added.</p>";
+        return;
+      }
+
+      container.innerHTML = currentData.gallery.map((img, index) => `
+        <div class="gallery-manage-item">
+          <span style="font-size: 0.85rem; word-break: break-all;">${img}</span>
+          <button class="btn btn-danger" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;" onclick="removeGalleryImage(${index})">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    function addGalleryImage() {
+      const imgPath = document.getElementById('new-gallery-img').value.trim();
+      if (!imgPath) return alert("Please enter an image path or URL.");
+
+      if (!currentData.gallery) currentData.gallery = [];
+      currentData.gallery.push(imgPath);
+      document.getElementById('new-gallery-img').value = '';
+      renderAdminGallery();
+    }
+
+    function removeGalleryImage(index) {
+      currentData.gallery.splice(index, 1);
+      renderAdminGallery();
+    }
+
+    function renderAdminTeachers() {
+      const container = document.getElementById('admin-teachers-list');
+      if (!currentData.teachers || currentData.teachers.length === 0) {
+        container.innerHTML = "<p style='color: #64748b; font-size: 0.9rem;'>No members added yet.</p>";
+        return;
+      }
+
+      container.innerHTML = currentData.teachers.map((t, index) => `
+        <div class="teacher-item">
+          <div>
+            <strong>${t.name}</strong> <span style="color: #64748b; font-size: 0.85rem;">(${t.subject})</span>
+          </div>
+          <button class="btn btn-danger" style="padding: 0.2rem 0.6rem; font-size: 0.8rem;" onclick="removeTeacher(${index})">Delete</button>
+        </div>
+      `).join('');
+    }
+
+    function removeTeacher(index) {
+      currentData.teachers.splice(index, 1);
+      renderAdminTeachers();
+    }
+
+    function addTeacher() {
+      const name = document.getElementById('new-teacher-name').value.trim();
+      const subject = document.getElementById('new-teacher-sub').value.trim();
+      const photo = document.getElementById('new-teacher-img').value.trim() || "https://via.placeholder.com/150";
+
+      if (!name || !subject) {
+        return alert("Please provide both a Name and Subject/Role.");
+      }
+
+      if (!currentData.teachers) currentData.teachers = [];
+      currentData.teachers.push({ name, subject, photo });
+
+      document.getElementById('new-teacher-name').value = '';
+      document.getElementById('new-teacher-sub').value = '';
+      document.getElementById('new-teacher-img').value = '';
+
+      renderAdminTeachers();
+    }
+
+    // Direct GitHub Commit API Handler
+    // GitHub API configuration
+    // IMPORTANT: Do NOT place a real GitHub token directly in public code.
+    const GITHUB_USER = "mranshurx";
+    const GITHUB_REPO = "canvas-v2";
+    const GITHUB_TOKEN = ""; // Add your trial token locally if you accept the security risk.
+
+    async function saveToGitHub() {
+      const user = GITHUB_USER;
+      const repo = GITHUB_REPO;
+      const token = GITHUB_TOKEN;
+
+      if (!token) {
+        return alert("GitHub token is not configured in the code yet.");
+      }
+
+      const updatedData = {
+        name: document.getElementById('edit-name').value,
+        branch: document.getElementById('edit-branch').value,
+        logo: document.getElementById('edit-logo').value,
+        description: document.getElementById('edit-description').value,
+        address: document.getElementById('edit-address').value,
+        picture: document.getElementById('edit-picture').value,
+        email: document.getElementById('edit-email').value,
+        phone: document.getElementById('edit-phone').value,
+        gallery: currentData.gallery || [],
+        teachers: currentData.teachers || [],
+        visitors: currentData.visitors || []
+      };
+
+      const saveBtn = document.getElementById('save-btn');
+      saveBtn.disabled = true;
+      saveBtn.innerText = "Saving code to GitHub...";
+
+      try {
+        const filePath = "index.html";
+        const apiUrl = `https://api.github.com/repos/${user}/${repo}/contents/${filePath}`;
+
+        const fileRes = await fetch(apiUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json'
+          }
+        });
+
+        if (!fileRes.ok) {
+          throw new Error("Failed to find index.html. Check repository and token permissions.");
+        }
+
+        const fileData = await fileRes.json();
+        const currentSha = fileData.sha;
+
+        const rawHtml = decodeURIComponent(escape(atob(fileData.content)));
+
+        const newDataString = JSON.stringify(updatedData, null, 2);
+        const updatedHtml = rawHtml.replace(
+          /const defaultData = \{[\s\S]*?\};/,
+          `const defaultData = ${newDataString};`
+        );
+
+        if (updatedHtml === rawHtml) {
+          throw new Error("Could not locate defaultData in index.html.");
+        }
+
+        const encodedContent = btoa(unescape(encodeURIComponent(updatedHtml)));
+
+        const commitRes = await fetch(apiUrl, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Update school website settings',
+            content: encodedContent,
+            sha: currentSha
+          })
+        });
+
+        if (commitRes.ok) {
+          alert("Success! Changes were saved to GitHub. Render will redeploy after the commit.");
+          currentData = updatedData;
+          renderUI();
+          closeAdminModal();
+        } else {
+          const errData = await commitRes.json();
+          alert("GitHub API Error: " + (errData.message || "Failed to commit changes."));
+        }
+      } catch (err) {
+        alert("Error: " + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerText = "Save All Changes to GitHub";
+      }
+    }
+
+    loadData();
+  </script>
+<div class="copyright-bar">
+  <span>Copyright © 2026 All rights reserved.</span>
+  <span>Designed with ❤️ by TEAM 3IDIOTS</span>
+</div>
+
+<style>
+  .copyright-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 14px 24px;
+    background: #020617;
+    color: #94a3b8;
+    border-top: 1px solid #1e293b;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .copyright-bar span:last-child {
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    .copyright-bar {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .copyright-bar span:last-child {
+      text-align: center;
+    }
+  }
+</style>
+
+</body>
+</html>
