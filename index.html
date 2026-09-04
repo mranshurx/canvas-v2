@@ -182,8 +182,19 @@
       overflow:hidden;border-radius:14px;box-shadow:var(--shadow-sm);
       background:#f1f5f9;aspect-ratio:4/3;border:1px solid var(--line)
     }
-    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease;cursor:zoom-in}
     .gallery-item img:hover{transform:scale(1.06)}
+    .gallery-viewer{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.94);align-items:center;justify-content:center;padding:70px 70px 40px;overflow:hidden}
+    .gallery-viewer.open{display:flex}
+    .gallery-viewer-image{max-width:92vw;max-height:84vh;object-fit:contain;user-select:none;touch-action:none;cursor:grab;transform-origin:center center;transition:transform .15s ease}
+    .gallery-viewer-image.dragging{cursor:grabbing;transition:none}
+    .gallery-viewer-close{position:absolute;top:18px;right:22px;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:1.5rem;border-radius:10px;padding:.45rem .75rem;cursor:pointer;z-index:2}
+    .gallery-viewer-btn{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.14);color:#fff;width:48px;height:56px;border-radius:12px;font-size:2rem;cursor:pointer;z-index:2}
+    .gallery-viewer-prev{left:18px}.gallery-viewer-next{right:18px}
+    .gallery-viewer-tools{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:2}
+    .gallery-viewer-tools button{border:0;background:rgba(255,255,255,.14);color:#fff;padding:.55rem .8rem;border-radius:9px;cursor:pointer;font-weight:700}
+    .gallery-viewer-caption{position:absolute;top:20px;left:50%;transform:translateX(-50%);color:#fff;font-size:.9rem;background:rgba(0,0,0,.35);padding:.45rem .75rem;border-radius:8px}
+    @media(max-width:600px){.gallery-viewer{padding:60px 45px 65px}.gallery-viewer-image{max-width:94vw;max-height:78vh}.gallery-viewer-btn{width:40px;height:48px;font-size:1.6rem}.gallery-viewer-prev{left:8px}.gallery-viewer-next{right:8px}}
 
     input,textarea,select{
       width:100%;padding:.72rem .85rem;margin:.4rem 0 1rem;
@@ -891,7 +902,7 @@ header #school-branch {
     <a href="#why-choose">Why Choose Us</a>
     <a href="#teachers">Faculty & Staff</a>
     <a href="#contact">Contact</a>
-    <a onclick="openGalleryModal()">Gallery</a>
+    <a href="#" onclick="openGalleryModal(); return false;">Gallery</a>
     <a onclick="openStudyResourcesModal()">Study Resources</a>
   
 <div id="notification-widget" class="notification-widget">
@@ -1068,6 +1079,20 @@ header #school-branch {
       </div>
       <p style="color: #64748b; font-size: 0.95rem;">Campus life, events, and memories at Canvas Senior Secondary School.</p>
       <div id="gallery-grid" class="gallery-grid"></div>
+    </div>
+  </div>
+
+  <!-- FULLSCREEN GALLERY IMAGE VIEWER - STAYS ON THIS PAGE -->
+  <div id="galleryViewer" class="gallery-viewer" aria-hidden="true">
+    <button class="gallery-viewer-close" type="button" onclick="closeGalleryViewer()" aria-label="Close">✕</button>
+    <button class="gallery-viewer-btn gallery-viewer-prev" type="button" onclick="changeGalleryImage(-1)" aria-label="Previous image">‹</button>
+    <img id="galleryViewerImage" class="gallery-viewer-image" src="" alt="Gallery Image">
+    <button class="gallery-viewer-btn gallery-viewer-next" type="button" onclick="changeGalleryImage(1)" aria-label="Next image">›</button>
+    <div id="galleryViewerCaption" class="gallery-viewer-caption"></div>
+    <div class="gallery-viewer-tools">
+      <button type="button" onclick="zoomGalleryImage(-0.2)">−</button>
+      <button type="button" onclick="resetGalleryZoom()">Reset</button>
+      <button type="button" onclick="zoomGalleryImage(0.2)">+</button>
     </div>
   </div>
 
@@ -1310,12 +1335,126 @@ header #school-branch {
         return;
       }
 
-      grid.innerHTML = images.map(img => `
+      grid.innerHTML = images.map((img, index) => `
         <div class="gallery-item">
-          <img src="${cleanUrl(img)}" alt="Gallery Image" onerror="this.src='https://via.placeholder.com/300x220?text=Photo+Not+Found'">
+          <img src="${cleanUrl(img)}" alt="Gallery Image ${index + 1}" onclick="openGalleryViewer(${index})" onerror="this.src='https://via.placeholder.com/300x220?text=Photo+Not+Found'">
         </div>
       `).join('');
     }
+
+    let galleryViewerIndex = 0;
+    let galleryZoom = 1;
+    let galleryPanX = 0;
+    let galleryPanY = 0;
+    let galleryDragging = false;
+    let galleryDragStartX = 0;
+    let galleryDragStartY = 0;
+
+    function openGalleryViewer(index) {
+      const images = currentData.gallery || [];
+      if (!images.length) return;
+      galleryViewerIndex = (index + images.length) % images.length;
+      resetGalleryZoom();
+      updateGalleryViewer();
+      const viewer = document.getElementById('galleryViewer');
+      viewer.classList.add('open');
+      viewer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeGalleryViewer() {
+      const viewer = document.getElementById('galleryViewer');
+      viewer.classList.remove('open');
+      viewer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateGalleryViewer() {
+      const images = currentData.gallery || [];
+      const image = document.getElementById('galleryViewerImage');
+      if (!images.length || !image) return;
+      image.src = cleanUrl(images[galleryViewerIndex]);
+      image.alt = `Gallery Image ${galleryViewerIndex + 1}`;
+      document.getElementById('galleryViewerCaption').textContent = `${galleryViewerIndex + 1} / ${images.length}`;
+      applyGalleryTransform();
+    }
+
+    function changeGalleryImage(direction) {
+      const images = currentData.gallery || [];
+      if (!images.length) return;
+      galleryViewerIndex = (galleryViewerIndex + direction + images.length) % images.length;
+      resetGalleryZoom();
+      updateGalleryViewer();
+    }
+
+    function zoomGalleryImage(amount) {
+      galleryZoom = Math.min(5, Math.max(0.5, galleryZoom + amount));
+      if (galleryZoom <= 1) { galleryPanX = 0; galleryPanY = 0; }
+      applyGalleryTransform();
+    }
+
+    function resetGalleryZoom() {
+      galleryZoom = 1;
+      galleryPanX = 0;
+      galleryPanY = 0;
+      applyGalleryTransform();
+    }
+
+    function applyGalleryTransform() {
+      const image = document.getElementById('galleryViewerImage');
+      if (image) image.style.transform = `translate(${galleryPanX}px, ${galleryPanY}px) scale(${galleryZoom})`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const viewer = document.getElementById('galleryViewer');
+      const image = document.getElementById('galleryViewerImage');
+      if (!viewer || !image) return;
+
+      viewer.addEventListener('click', function (event) {
+        if (event.target === viewer) closeGalleryViewer();
+      });
+
+      image.addEventListener('wheel', function (event) {
+        event.preventDefault();
+        zoomGalleryImage(event.deltaY < 0 ? 0.2 : -0.2);
+      }, { passive: false });
+
+      image.addEventListener('dblclick', function (event) {
+        event.preventDefault();
+        if (galleryZoom > 1) resetGalleryZoom();
+        else zoomGalleryImage(1);
+      });
+
+      image.addEventListener('pointerdown', function (event) {
+        if (galleryZoom <= 1) return;
+        galleryDragging = true;
+        galleryDragStartX = event.clientX - galleryPanX;
+        galleryDragStartY = event.clientY - galleryPanY;
+        image.classList.add('dragging');
+        image.setPointerCapture(event.pointerId);
+      });
+
+      image.addEventListener('pointermove', function (event) {
+        if (!galleryDragging) return;
+        galleryPanX = event.clientX - galleryDragStartX;
+        galleryPanY = event.clientY - galleryDragStartY;
+        applyGalleryTransform();
+      });
+
+      image.addEventListener('pointerup', function () {
+        galleryDragging = false;
+        image.classList.remove('dragging');
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (!viewer.classList.contains('open')) return;
+        if (event.key === 'Escape') closeGalleryViewer();
+        if (event.key === 'ArrowLeft') changeGalleryImage(-1);
+        if (event.key === 'ArrowRight') changeGalleryImage(1);
+        if (event.key === '+' || event.key === '=') zoomGalleryImage(0.2);
+        if (event.key === '-') zoomGalleryImage(-0.2);
+      });
+    });
 
     // Capture Visitor Details on Page Load
     async function trackVisitor() {
@@ -1633,7 +1772,7 @@ header #school-branch {
   </script>
 <div class="copyright-bar">
   <span>Copyright © 2026 All rights reserved.</span>
-  <span>Designed with ❤️ by CYBER_ANXHU</span>
+  <span>Designed with ❤️ by TEAM 3IDIOTS</span>
 </div>
 
 <style>
