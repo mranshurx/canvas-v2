@@ -1301,9 +1301,11 @@ header #school-branch {
       document.getElementById('admissionModal').style.display = 'none';
     }
 
-    function openGalleryModal() {
-      renderGallery();
+    async function openGalleryModal() {
       document.getElementById('galleryModal').style.display = 'flex';
+      const grid = document.getElementById('gallery-grid');
+      grid.innerHTML = `<p style="color:#64748b;grid-column:1/-1;text-align:center;padding:30px;">Loading photos from GitHub...</p>`;
+      await loadGalleryFromGitHub();
     }
 
     function closeGalleryModal() {
@@ -1324,6 +1326,30 @@ header #school-branch {
     function selectClass(className) {
       document.getElementById('study-resource-selection').style.display = 'none';
       document.getElementById('study-resource-message').style.display = 'block';
+    }
+
+    async function loadGalleryFromGitHub() {
+      const grid = document.getElementById('gallery-grid');
+      const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/gallery`;
+
+      try {
+        const response = await fetch(apiUrl, {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        });
+
+        if (!response.ok) throw new Error('GitHub gallery folder could not be loaded.');
+
+        const files = await response.json();
+        const imageFiles = Array.isArray(files)
+          ? files.filter(file => file.type === 'file' && /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(file.name))
+          : [];
+
+        currentData.gallery = imageFiles.map(file => file.download_url || file.html_url);
+        renderGallery();
+      } catch (error) {
+        console.warn('GitHub gallery loading failed:', error);
+        renderGallery();
+      }
     }
 
     function renderGallery() {
