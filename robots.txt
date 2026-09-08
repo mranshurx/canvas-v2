@@ -1,0 +1,6 @@
+# Allow all search engines (Google, Bing, etc.) to crawl the full site
+User-agent: *
+Allow: /
+
+# Direct search engine crawlers to your sitemap
+Sitemap: https://canvas-v2.onrender.com/sitemap.xml
