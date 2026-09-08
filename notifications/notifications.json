@@ -1,0 +1,18 @@
+[
+  {
+    "id": "welcome-1",
+    "title": "Welcome",
+    "message": "Welcome to Canvas Senior Secondary School.",
+    "icon": "📢",
+    "time": "New",
+    "read": false
+  },
+  {
+    "id": "exam-1",
+    "title": "Examination Notice",
+    "message": "The upcoming examination schedule has been published.",
+    "icon": "📚",
+    "time": "New",
+    "read": false
+  }
+]
