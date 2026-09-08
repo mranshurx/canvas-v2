@@ -1853,50 +1853,66 @@ header #school-branch {
 
 <script>
 (function () {
-  const STORAGE_KEY = "canvas_school_notifications_v1";
+  // Notifications are now loaded from notifications/notifications.json
+  // in the same GitHub/Render website project.
+  const NOTIFICATIONS_URL = "notifications/notifications.json";
+  const READ_STORAGE_KEY = "canvas_school_notification_read_v2";
+  const REFRESH_INTERVAL = 60000; // 60 seconds
 
-  const defaultNotifications = [
-    {
-      id: "teachers-day-2026",
-      title: "Teachers' Day Celebration",
-      message: "Teachers day celebration on 5th September",
-      icon: "🎉",
-      time: "Upcoming • 5th September",
-      read: false
-    },
-    {
-      id: "welcome",
-      title: "Welcome to the school website",
-      message: "Check this section for important school announcements and updates.",
-      icon: "📢",
-      time: "Just now",
-      read: false
-    }
-  ];
+  let notificationItems = [];
 
-  function getNotifications() {
+  function getReadIds() {
     try {
-      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      return Array.isArray(saved) ? saved : defaultNotifications;
+      const saved = JSON.parse(localStorage.getItem(READ_STORAGE_KEY));
+      return Array.isArray(saved) ? saved : [];
     } catch (e) {
-      return defaultNotifications;
+      return [];
     }
   }
 
-  function saveNotifications(items) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  function saveReadIds(ids) {
+    localStorage.setItem(READ_STORAGE_KEY, JSON.stringify(ids.slice(0, 500)));
+  }
+
+  function markNotificationRead(id) {
+    const ids = getReadIds();
+    if (!ids.includes(id)) {
+      ids.push(id);
+      saveReadIds(ids);
+    }
+  }
+
+  function isNotificationRead(id, item) {
+    if (getReadIds().includes(id)) return true;
+    return item && item.read === true;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
   }
 
   function renderNotifications() {
     const list = document.getElementById("notification-list");
     const count = document.getElementById("notification-count");
+    const subtitle = document.getElementById("notification-subtitle");
     if (!list || !count) return;
 
-    const items = getNotifications();
-    const unread = items.filter(item => !item.read).length;
+    const items = Array.isArray(notificationItems) ? notificationItems : [];
+    const unread = items.filter(item => !isNotificationRead(String(item.id), item)).length;
 
     count.textContent = unread > 99 ? "99+" : unread;
     count.style.display = unread ? "flex" : "none";
+
+    if (subtitle) {
+      subtitle.textContent = items.length
+        ? `${items.length} school update${items.length === 1 ? "" : "s"}`
+        : "Latest school updates";
+    }
 
     if (!items.length) {
       list.innerHTML = `
@@ -1907,36 +1923,71 @@ header #school-branch {
       return;
     }
 
-    list.innerHTML = items.map(item => `
-      <div class="notification-item ${item.read ? "" : "unread"}" data-id="${escapeHtml(item.id)}">
-        <div class="notification-icon">${escapeHtml(item.icon || "📢")}</div>
-        <div class="notification-body">
-          <p class="notification-title">${escapeHtml(item.title || "Notification")}</p>
-          <p class="notification-message">${escapeHtml(item.message || "")}</p>
-          <div class="notification-time">${escapeHtml(item.time || "")}</div>
-        </div>
-      </div>
-    `).join("");
+    list.innerHTML = items.map((item, index) => {
+      const id = String(item.id || `notification-${index}`);
+      const read = isNotificationRead(id, item);
+      return `
+        <div class="notification-item ${read ? "" : "unread"}" data-id="${escapeHtml(id)}">
+          <div class="notification-icon">${escapeHtml(item.icon || "📢")}</div>
+          <div class="notification-body">
+            <p class="notification-title">${escapeHtml(item.title || "Notification")}</p>
+            <p class="notification-message">${escapeHtml(item.message || "")}</p>
+            <div class="notification-time">${escapeHtml(item.time || "")}</div>
+          </div>
+        </div>`;
+    }).join("");
 
     list.querySelectorAll(".notification-item").forEach(item => {
       item.addEventListener("click", function () {
-        const id = this.dataset.id;
-        const updated = getNotifications().map(n =>
-          n.id === id ? {...n, read: true} : n
-        );
-        saveNotifications(updated);
+        markNotificationRead(this.dataset.id);
         renderNotifications();
       });
     });
   }
 
-  function escapeHtml(value) {
-    return String(value)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+  async function loadNotificationsFromGitHub() {
+    try {
+      // Cache-busting makes newly committed JSON changes show up without
+      // relying on an old browser/CDN copy.
+      const response = await fetch(`${NOTIFICATIONS_URL}?v=${Date.now()}`, {
+        cache: "no-store",
+        headers: { "Accept": "application/json" }
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error("notifications.json must contain a JSON array.");
+      }
+
+      notificationItems = data
+        .filter(item => item && typeof item === "object")
+        .map((item, index) => ({
+          id: String(item.id || `notification-${index}`),
+          title: item.title || "School Update",
+          message: item.message || "",
+          icon: item.icon || "📢",
+          time: item.time || "New",
+          read: item.read === true
+        }));
+
+      renderNotifications();
+    } catch (error) {
+      console.warn("Could not load notifications.json:", error);
+
+      const list = document.getElementById("notification-list");
+      if (list && !notificationItems.length) {
+        list.innerHTML = `
+          <div class="notification-empty">
+            <span>⚠️</span>
+            <p>Notifications could not be loaded right now.</p>
+          </div>`;
+      }
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -1946,13 +1997,16 @@ header #school-branch {
 
     if (!button || !panel) return;
 
-    renderNotifications();
+    loadNotificationsFromGitHub();
 
     button.addEventListener("click", function (event) {
       event.stopPropagation();
       const isOpen = !panel.hidden;
       panel.hidden = isOpen;
       button.setAttribute("aria-expanded", String(!isOpen));
+
+      // Refresh whenever the notification panel is opened.
+      if (!isOpen) loadNotificationsFromGitHub();
     });
 
     panel.addEventListener("click", function (event) {
@@ -1966,25 +2020,29 @@ header #school-branch {
 
     if (markRead) {
       markRead.addEventListener("click", function () {
-        saveNotifications(getNotifications().map(n => ({...n, read: true})));
+        notificationItems.forEach(item => markNotificationRead(String(item.id)));
         renderNotifications();
       });
     }
+
+    // Check for new school notifications every minute while the site is open.
+    setInterval(loadNotificationsFromGitHub, REFRESH_INTERVAL);
   });
 
-  // Expose this function so your existing Superuser code can later create
-  // notifications without changing the notification UI.
+  // Kept for compatibility with any existing code that may call this function.
+  // It only adds a temporary browser-side notification; permanent notifications
+  // should be added to notifications/notifications.json in GitHub.
   window.addSchoolNotification = function (title, message, icon) {
-    const items = getNotifications();
-    items.unshift({
-      id: "notification_" + Date.now(),
+    const temporaryItem = {
+      id: "temporary_" + Date.now(),
       title: title || "School Update",
       message: message || "",
       icon: icon || "📢",
       time: new Date().toLocaleString(),
       read: false
-    });
-    saveNotifications(items.slice(0, 50));
+    };
+    notificationItems.unshift(temporaryItem);
+    notificationItems = notificationItems.slice(0, 50);
     renderNotifications();
   };
 })();
